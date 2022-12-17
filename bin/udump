@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+
+import sys
+import codecs
+import unicodedata
+
+'''Transforms inputs from stdin to a sequence of Unicode codepoints.
+'''
+def main():
+  if len(sys.argv) > 1:
+    inputFile = codecs.open(sys.argv[1], 'r', 'utf-8')
+  else:
+    inputFile = sys.stdin
+  fileData = inputFile.read()
+  inputFile.close()
+
+  print('Using Unicode', unicodedata.unidata_version, 'data')
+  print('Read', len(fileData), 'characters')
+
+  offset = 0
+  for ch in fileData:
+    utf8ch = ch.encode('utf-8')
+    print('{:x}: U+{:X} {}'.format(offset, ord(ch), unicodedata.name(ch, '(unnamed character)')))
+    offset += len(utf8ch)
+
+if __name__ == '__main__':
+  main()
