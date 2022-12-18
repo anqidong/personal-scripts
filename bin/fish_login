@@ -1,0 +1,5 @@
+ #!/bin/bash -l
+
+ # Using this file allows the contents of .profile to be loaded in
+ # when using fish
+ exec -l fish "$@"
