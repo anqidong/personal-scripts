@@ -2,4 +2,10 @@
 
  # Using this file allows the contents of .profile to be loaded in
  # when using fish
- exec -l fish "$@"
+
+WHICH_FISH=`which fish`
+if echo $- | grep -q 'i' && [[ -x $WHICH_FISH ]]; then
+  exec -l $WHICH_FISH -i
+else
+  exec -l /bin/bash -i
+fi

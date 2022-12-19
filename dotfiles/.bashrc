@@ -1,3 +1,20 @@
+# TODO: Move this back to .profile
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/git/personal-scripts/bin" ] ; then
+    export PATH="$HOME/git/personal-scripts/bin:$PATH"
+fi
+
+if [ -d "$HOME/git/work-scripts/bin" ] ; then
+    export PATH="$HOME/git/work-scripts/bin:$PATH"
+fi
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -65,7 +82,7 @@ set_bash_prompt() {
   if [[ "$VIRTUAL_ENV" != "" ]]; then
     virtualenv_str=" ($(basename "$VIRTUAL_ENV"))"
   else
-    virtualenv_str=$(python -c 'import sys; sys.stdout.write(" <virtualenv>" if hasattr(sys, "real_prefix") else "")')
+    virtualenv_str=$(python3 -c 'import sys; sys.stdout.write(" <virtualenv>" if hasattr(sys, "real_prefix") else "")')
   fi
 
   if [ "$color_prompt" = yes ]; then

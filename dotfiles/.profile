@@ -18,20 +18,24 @@ fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    export PATH="$HOME/bin:$PATH"
 fi
 
 if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 if [ -d "$HOME/git/personal-scripts/bin" ] ; then
-    PATH="$HOME/git/personal-scripts/bin:$PATH"
+    export PATH="$HOME/git/personal-scripts/bin:$PATH"
 fi
 
 if [ -d "$HOME/git/work-scripts/bin" ] ; then
-    PATH="$HOME/git/work-scripts/bin:$PATH"
+    export PATH="$HOME/git/work-scripts/bin:$PATH"
 fi
+
+# TODO: Remove this after you re-log-in everywhere and .profile changes are
+# picked up???
+export _PROFILE_CHANGES_SEEM_TO_BE_SET_=42
 
 export EDITOR=vim
 
