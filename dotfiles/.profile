@@ -38,3 +38,8 @@ export EDITOR=vim
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+
+export IBUS_ENABLE_SYNC_MODE=1
+
+# For gcc auto-color
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
