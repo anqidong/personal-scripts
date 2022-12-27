@@ -88,15 +88,21 @@ set incsearch
 set list listchars=tab:»\ 
 set showbreak=↪\ 
 
+" Set colours and long-line indicators
 highlight ColorColumn  ctermbg=195 guibg=#ddfffc
 highlight CursorColumn ctermbg=193 guibg=#d7ffaf
 highlight CursorLine   ctermbg=193 guibg=#d7ffaf
-if &textwidth ==? 0
-  " No explicit textwidth was set
-  set colorcolumn=80,100
-else
-  set colorcolumn=+0
-endif
+
+function _SetColorColumn()
+  if &textwidth ==? 0
+    " No explicit textwidth was set
+    set colorcolumn=80,100
+  else
+    set colorcolumn=+0
+  endif
+endfunction
+
+autocmd BufRead * :call _SetColorColumn()
 
 " syntax folding options
 set foldmethod=syntax
@@ -159,3 +165,4 @@ nnoremap <Leader>8 :call KernelTabRules() <CR>
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ Medium\ 10
 endif
+
