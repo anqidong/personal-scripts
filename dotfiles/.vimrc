@@ -5,6 +5,8 @@ endif
 " Enable modern Vim features not compatible with Vi spec.
 set nocompatible
 
+source $VIMRUNTIME/defaults.vim
+
 """" Vundle setup
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -20,7 +22,7 @@ Plugin 'altercation/vim-colors-solarized'
 " Plugin 'valloric/youcompleteme'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'taglist.vim'  " from vim.org
-Plugin 'moll/vim-bbye'  " more sane :Bclose command
+Plugin 'moll/vim-bbye'  " more intuitive :Bclose command
 
 " language highlighting
 Plugin 'dag/vim-fish'
@@ -80,11 +82,20 @@ set clipboard=unnamedplus  " y, d copy to system clipboard, p pastes from
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set showcmd
 
+set incsearch
+
 " show tabs and soft wraps with screen characters
 set list listchars=tab:»\ 
 set showbreak=↪\ 
-set colorcolumn=100
-set textwidth=100
+
+highlight ColorColumn ctermbg=254 guibg=#cccccc
+if &textwidth ==? 0
+  " No explicit textwidth was set
+  set colorcolumn=80
+  set colorcolumn=100
+else
+  set colorcolumn=+0
+endif
 
 " syntax folding options
 set foldmethod=syntax
@@ -121,7 +132,7 @@ nnoremap <F6> :TlistShowPrototype <CR>
 
 nnoremap <Leader>q :Bdelete <CR>
 nnoremap <Leader>p :set paste! <CR>
-nnoremap <Leader>w gqip
+nnoremap <Leader>w gqip   " line-wraps according to textwidth
 nnoremap <Leader>4 :call ToggleTabRules() <CR>
 nnoremap <Leader>8 :call KernelTabRules() <CR>
 nnoremap <Leader>c :set cursorline! <Bar> set cursorcolumn! <CR>
