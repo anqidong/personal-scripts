@@ -88,11 +88,12 @@ set incsearch
 set list listchars=tab:»\ 
 set showbreak=↪\ 
 
-highlight ColorColumn ctermbg=254 guibg=#cccccc
+highlight ColorColumn  ctermbg=195 guibg=#ddfffc
+highlight CursorColumn ctermbg=193 guibg=#d7ffaf
+highlight CursorLine   ctermbg=193 guibg=#d7ffaf
 if &textwidth ==? 0
   " No explicit textwidth was set
-  set colorcolumn=80
-  set colorcolumn=100
+  set colorcolumn=80,100
 else
   set colorcolumn=+0
 endif
@@ -103,19 +104,11 @@ set foldnestmax=10
 autocmd BufRead * normal zR
 " set nofoldenable
 
+" override tab settings for C files
 function KernelTabRules()
   setlocal shiftwidth=8 tabstop=8 softtabstop=8 noexpandtab nosmarttab
 endfunction
 
-function ToggleTabRules()
-  if &tabstop ==? 2
-    setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  else
-    setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  endif
-endfunction
-
-" override tab settings for C files
 " autocmd FileType c :call KernelTabRules()
 
 " set text width for hg commits
@@ -130,12 +123,38 @@ nnoremap <F5> :TlistToggle <Bar> NERDTreeToggle <CR>
 
 nnoremap <F6> :TlistShowPrototype <CR>
 
+function ToggleTabRules()
+  if &tabstop ==? 2
+    setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  else
+    setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  endif
+endfunction
+
+function ToggleForTerminalRawCopy()
+  " Toggle &colorcolumn, writing the old value to a buffer-local variable
+  if empty(&colorcolumn)
+    if !empty(b:orig_colorcolumn)
+      let &colorcolumn=b:orig_colorcolumn
+    endif
+  else
+    let b:orig_colorcolumn=&colorcolumn
+    set colorcolumn&
+  endif
+
+  set number!
+  set relativenumber!
+endfunction
+
 nnoremap <Leader>q :Bdelete <CR>
-nnoremap <Leader>p :set paste! <CR>
 nnoremap <Leader>w gqip   " line-wraps according to textwidth
+
+nnoremap <Leader>p :set paste! <CR>
+nnoremap <Leader>x :call ToggleForTerminalRawCopy() <CR>
+nnoremap <Leader>c :set cursorline! <Bar> set cursorcolumn! <CR>
+
 nnoremap <Leader>4 :call ToggleTabRules() <CR>
 nnoremap <Leader>8 :call KernelTabRules() <CR>
-nnoremap <Leader>c :set cursorline! <Bar> set cursorcolumn! <CR>
 
 if has('gui_running')
   set guifont=Source\ Code\ Pro\ Medium\ 10
