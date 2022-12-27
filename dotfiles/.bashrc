@@ -1,20 +1,3 @@
-# TODO: Move this back to .profile
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
-if [ -d "$HOME/git/personal-scripts/bin" ] ; then
-    export PATH="$HOME/git/personal-scripts/bin:$PATH"
-fi
-
-if [ -d "$HOME/git/work-scripts/bin" ] ; then
-    export PATH="$HOME/git/work-scripts/bin:$PATH"
-fi
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -23,7 +6,8 @@ esac
 
 if [ -z $NO_AUTO_FISH ]; then
   WHICH_FISH=`which fish`
-  if echo $- | grep -q 'i' && [[ -x $WHICH_FISH ]] && [[ $SHELL != $WHICH_FISH ]]; then
+  if echo $- | grep -q 'i' && \
+      [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
     export SHELL=$WHICH_FISH
     exec $WHICH_FISH -i
   fi

@@ -8,14 +8,6 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
-fi
-
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
@@ -47,3 +39,13 @@ export IBUS_ENABLE_SYNC_MODE=1
 
 # For gcc auto-color
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# If running bash:
+if [ -n "$BASH_VERSION" ]; then
+    # Include .bashrc if it exists. Do this after everything else, because the
+    # .bashrc file may eventually exec into fish, and we don't want to lose all
+    # of the stuff above, should that happen.
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
