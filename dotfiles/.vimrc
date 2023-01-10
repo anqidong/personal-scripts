@@ -102,6 +102,9 @@ function _SetColorColumn()
   endif
 endfunction
 
+" Set up columns once at startup for new buffers, and then run it again after
+" the file type handlers have triggered.
+call _SetColorColumn()
 autocmd BufRead * :call _SetColorColumn()
 
 " syntax folding options
