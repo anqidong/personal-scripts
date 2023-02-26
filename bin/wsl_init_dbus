@@ -1,0 +1,5 @@
+#!/bin/sh
+# Needed for stuff that wants to think that dbus is working normally
+# (gnome-system-monitor, graphical terminal programs, etc.). See
+# https://github.com/microsoft/WSL/issues/3552
+sudo systemd-machine-id-setup
