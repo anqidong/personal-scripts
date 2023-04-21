@@ -1,4 +1,3 @@
-### aliases from google .bashrc
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
