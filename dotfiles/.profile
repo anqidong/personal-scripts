@@ -31,6 +31,8 @@ export _PROFILE_CHANGES_SEEM_TO_BE_SET_=42
 
 export EDITOR=vim
 
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
