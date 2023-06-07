@@ -1,0 +1,20 @@
+/*
+ * This file doesn't work as a symlink. 🙁
+ *
+ * Copy this to ~/Library/KeyBindings/DefaultKeyBinding.dict directly.
+ *
+ * 
+
+{
+
+"\UF729" = "moveToBeginningOfLine:";
+"\UF72B" = "moveToEndOfLine:";
+"$\UF729" = moveToBeginningOfLineAndModifySelection:; // shift-home
+"$\UF72B" = moveToEndOfLineAndModifySelection:; // shift-end
+"^\UF729" = moveToBeginningOfDocument:; // ctrl-home
+"^\UF72B" = moveToEndOfDocument:; // ctrl-end
+"^$\UF729" = moveToBeginningOfDocumentAndModifySelection:; // ctrl-shift-home
+"^$\UF72B" = moveToEndOfDocumentAndModifySelection:; // ctrl-shift-end
+
+}
+
