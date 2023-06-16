@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 if test (count $argv) -lt 2
   echo "usage: $_ <old_patt> <new_patt> [<files>]"
