@@ -78,7 +78,7 @@ syntax on
 set mouse=ar mousemodel=extend
 set number
 set relativenumber
-set clipboard=unnamedplus  " y, d copy to system clipboard, p pastes from
+set clipboard^=unnamed,unnamedplus  " y, d copy to system clipboard, p pastes from
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set showcmd
 
