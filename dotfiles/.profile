@@ -42,8 +42,8 @@ export IBUS_ENABLE_SYNC_MODE=1
 # For gcc auto-color
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# If running bash:
-if [ -n "$BASH_VERSION" ]; then
+# If running bash / zsh:
+if [ -n "$BASH_VERSION" -o -n "$ZSH_VERSION" ]; then
     # Include .bashrc if it exists. Do this after everything else, because the
     # .bashrc file may eventually exec into fish, and we don't want to lose all
     # of the stuff above, should that happen.
