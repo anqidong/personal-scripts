@@ -6,13 +6,17 @@ alias l='ls -CF'
 alias grep='grep --color=auto'
 alias rgrep='rgrep --color=auto'
 
-### From .profile
+### tell fish about extra folders of stuff
 if test -d "$HOME/bin"
-  set -gx PATH "$HOME/bin" $PATH
+  set -gx -p PATH "$HOME/bin"
 end
 
 if test -d "$HOME/git/personal-scripts/bin"
-  set -gx PATH "$HOME/git/personal-scripts/bin" $PATH
+  set -gx -p PATH "$HOME/git/personal-scripts/bin"
+end
+
+if test -d "$HOME/git/personal-scripts/fish_conf/functions"
+  set -g -p fish_function_path "$HOME/git/personal-scripts/fish_conf/functions"
 end
 
 ### custom aliases
