@@ -15,8 +15,11 @@ if test -d "$HOME/git/personal-scripts/bin"
   set -gx -p PATH "$HOME/git/personal-scripts/bin"
 end
 
-if test -d "$HOME/git/personal-scripts/fish_conf/functions"
-  set -g -p fish_function_path "$HOME/git/personal-scripts/fish_conf/functions"
+begin
+  set -l _config_fish_dir (path dirname (status -f))"/functions"
+  if test -d $_config_fish_dir
+    set -g -p fish_function_path $_config_fish_dir
+  end
 end
 
 ### custom aliases
@@ -35,7 +38,10 @@ end
 
 ### set up fish environment
 set -g fish_color_cwd ff4175
-set -g fish_color_host 0a6
+
+if test $fish_color_host = "normal"
+  set -g fish_color_host 0a6
+end
 
 function _prettified_path -d "Gets a prettified version of the current `pwd`"                       
   echo -n (pwd | sed -e "s|^$HOME|~|")                     
