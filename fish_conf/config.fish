@@ -1,7 +1,4 @@
 alias ls='ls --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 alias grep='grep --color=auto'
 alias rgrep='rgrep --color=auto'
@@ -16,9 +13,9 @@ if test -d "$HOME/git/personal-scripts/bin"
 end
 
 begin
-  set -l _config_fish_dir (path dirname (status -f))"/functions"
-  if test -d $_config_fish_dir
-    set -g -p fish_function_path $_config_fish_dir
+  set -l _test_dir (path dirname (status -f))"/functions"
+  if test -d $_test_dir
+    set -g -p fish_function_path $_test_dir
   end
 end
 
@@ -34,6 +31,14 @@ end
 
 function hex_to_utc -d "converts hex Weave timestamp to UTC"
   date -u --date="@"(math $argv / 1000)
+end
+
+
+begin
+  set -l _test_file (path dirname (status -f))"/abbrs.fish"
+  if test -f $_test_file
+    source $_test_file
+  end
 end
 
 ### set up fish environment
