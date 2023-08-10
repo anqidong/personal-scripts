@@ -3,6 +3,8 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias rgrep='rgrep --color=auto'
 
+alias dog='cat'
+
 ### tell fish about extra folders of stuff
 if test -d "$HOME/bin"
   set -gx -p PATH "$HOME/bin"
@@ -18,21 +20,6 @@ begin
     set -g -p fish_function_path $_test_dir
   end
 end
-
-### custom aliases
-alias dog='cat'
-function grepless -d "autocolor pipe grep into less"
-  grep --color=always $argv | less -R
-end
-
-function logless -d "autocolor pipe `log show` into less"
-  log show --color=always $argv | less -R
-end
-
-function hex_to_utc -d "converts hex Weave timestamp to UTC"
-  date -u --date="@"(math $argv / 1000)
-end
-
 
 begin
   set -l _test_file (path dirname (status -f))"/abbrs.fish"
