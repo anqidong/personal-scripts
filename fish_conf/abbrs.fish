@@ -1,3 +1,5 @@
+abbr -a grepw grep -Finw -C 5
+
 # For macOS `log` tool
 abbr -a slf set log_file
 
