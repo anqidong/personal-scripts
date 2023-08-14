@@ -1,3 +1,4 @@
+abbr -a ggrep git grep -Finw -C 5
 abbr -a grepw grep -Finw -C 5
 
 # For macOS `log` tool
