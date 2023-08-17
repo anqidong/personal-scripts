@@ -6,7 +6,7 @@ abbr -a ggrew git grep -Finw -C 5
 abbr -a --position anywhere grew grep -Finw -C 5
 
 # For macOS `log` tool
-abbr -a slf set log_file
+abbr -a --set-cursor slf set log_file \"%\"
 
 # ls helpers
 abbr -a ll ls -alF
