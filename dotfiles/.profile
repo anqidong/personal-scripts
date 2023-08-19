@@ -31,13 +31,21 @@ export _PROFILE_CHANGES_SEEM_TO_BE_SET_=42
 
 export EDITOR=vim
 
-export BASH_SILENCE_DEPRECATION_WARNING=1
+case $(uname) in
+  "Darwin"*)
+    export BASH_SILENCE_DEPRECATION_WARNING=1
 
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
+    # For some reason, some Mac terminals don't show up as supporting colours
+    export COLORTERM=1
+    ;;
+  "Linux"*)
+    export GTK_IM_MODULE=ibus
+    export XMODIFIERS=@im=ibus
+    export QT_IM_MODULE=ibus
 
-export IBUS_ENABLE_SYNC_MODE=1
+    export IBUS_ENABLE_SYNC_MODE=1
+    ;;
+esac
 
 # For gcc auto-color
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
