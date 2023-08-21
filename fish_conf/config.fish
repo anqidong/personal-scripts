@@ -7,11 +7,11 @@ alias dog='cat'
 
 ### tell fish about extra folders of stuff
 if test -d "$HOME/bin"
-  set -gx -p PATH "$HOME/bin"
+  fish_add_path -g --path "$HOME/bin"
 end
 
 if test -d "$HOME/git/personal-scripts/bin"
-  set -gx -p PATH "$HOME/git/personal-scripts/bin"
+  fish_add_path -g --path "$HOME/git/personal-scripts/bin"
 end
 
 begin
