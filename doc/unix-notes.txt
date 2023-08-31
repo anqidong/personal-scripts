@@ -1,0 +1,6 @@
+.ssh/config
+
+* Can use `IdentityFile <file_path>` to add an alternate private key for
+  certain domains (e.g. for multiple GitHub accounts)
+* `ControlMaster auto` / ControlPath (see ssh documentation) / ControlPersist
+  in order to share a ssh connection across multiple terminal windows
