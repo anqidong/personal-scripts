@@ -5,6 +5,9 @@ abbr -a --position anywhere grei grep -Fin -C 5
 abbr -a ggrew git grep -Finw -C 5
 abbr -a --position anywhere grew grep -Finw -C 5
 
+# Helpers for `git grep` on projects with Xcode stuff
+abbr -a --position anywhere -- xxc -- "':!*.pbxproj'" "':!*.plist'"
+
 # For macOS `log` tool
 abbr -a --set-cursor slf set log_file \"%\"
 
