@@ -1,4 +1,4 @@
-# If not running interactively, don't do anything
+# If not running interactively, don't continue
 case $- in
     *i*) ;;
       *) return;;
@@ -6,8 +6,7 @@ esac
 
 if [ -z $NO_AUTO_FISH ]; then
   WHICH_FISH=`which fish`
-  if echo $- | grep -q 'i' && \
-      [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
+  if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
     export SHELL=$WHICH_FISH
     exec $WHICH_FISH -i
   fi

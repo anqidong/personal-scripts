@@ -8,7 +8,7 @@ source ~/git/personal-scripts/dotfiles/.profile
 
 ## ~/.bashrc
 ```
-set -U fish_color_host 871394
+source ~/git/personal-scripts/dotfiles/.bashrc
 ```
 
 ## ~/.vimrc
@@ -21,4 +21,11 @@ source ~/git/personal-scripts/dotfiles/.vimrc
 source ~/git/personal-scripts/fish_conf/config.fish
 ```
 
-3. If desired, run `set -U fish_color_host <rgb_color>` in fish shell.
+3. Install vundle for vim:
+```
+> git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+> vim +PluginInstall +qall
+```
+
+4. If desired, run `set -U fish_color_host <rgb_color>` in fish shell, to
+   customize the prompt colouring.
