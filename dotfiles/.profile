@@ -50,8 +50,8 @@ esac
 # For gcc auto-color
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-if [ ! -x "`which brew`" -a -x "/opt/homebrew/bin/brew" ]; then
-  eval "`/opt/homebrew/bin/brew shellenv`"
+if [ ! -x "$(which brew)" -a -x "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # If running bash / zsh:

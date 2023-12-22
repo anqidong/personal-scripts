@@ -74,6 +74,10 @@ filetype plugin indent on    " required
 filetype plugin indent on
 syntax on
 
+" Assert that we are always using a POSIX shell, so that syntax like $() is
+" allowed always.
+let g:is_posix = 1
+
 " custom settings
 set mouse=ar mousemodel=extend
 set number
