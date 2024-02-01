@@ -13,10 +13,12 @@ function multi-sed
 
   echo $from_str → $to_str
 
+  set fish_trace 1
+
   # for i in (grep -rl -Pz $argv[1] $file_paths);
   for i in (grep -rl -E $argv[1] $file_paths);
     # vim -c "%s/"$argv[1]"/"$argv[2]"/gc" -c "wq" $i
-    sed -i -E "s/"$from_str"/"$to_str"/g" $i
+    sed -E "s/"$from_str"/"$to_str"/g" $i > $i.tmp; mv $i.tmp $i
     # perl -0777 -i -p -e "s/"$from_str"/"$to_str"/smg" $i
   end
 end
