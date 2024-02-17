@@ -1,5 +1,0 @@
-#!/bin/dash
-
-# Taken from https://stackoverflow.com/questions/6245570
-
-git symbolic-ref --short HEAD

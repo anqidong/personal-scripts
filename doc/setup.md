@@ -21,6 +21,12 @@ source ~/git/personal-scripts/dotfiles/.vimrc
 source ~/git/personal-scripts/fish_conf/config.fish
 ```
 
+## ~/.gitconfig
+```
+[include]
+	path = ~/git/personal-scripts/git_conf/aliases.gitconfig
+```
+
 3. Install vundle for vim:
 ```
 > git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim

@@ -1,0 +1,4 @@
+[alias]
+# Taken from https://stackoverflow.com/questions/6245570
+curr-branch = symbolic-ref --short HEAD
+retrack = "!f() { git branch --force \"$1\" \"origin/$1\"; }; f"
