@@ -25,10 +25,6 @@ if [ -d "$HOME/git/work-scripts/bin" ] ; then
     export PATH="$HOME/git/work-scripts/bin:$PATH"
 fi
 
-# TODO: Remove this after you re-log-in everywhere and .profile changes are
-# picked up???
-export _PROFILE_CHANGES_SEEM_TO_BE_SET_=42
-
 export EDITOR=vim
 
 case $(uname) in
