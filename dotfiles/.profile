@@ -27,6 +27,9 @@ fi
 
 export EDITOR=vim
 
+# For gcc auto-color
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
 case $(uname) in
   "Darwin"*)
     export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -42,9 +45,6 @@ case $(uname) in
     export IBUS_ENABLE_SYNC_MODE=1
     ;;
 esac
-
-# For gcc auto-color
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 if [ ! -x "$(which brew)" -a -x "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
