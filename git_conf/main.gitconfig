@@ -1,5 +1,8 @@
 [core]
 pager = "less -+X"
 
+[grep]
+lineNumber = true
+
 [include]
 path = aliases.gitconfig
