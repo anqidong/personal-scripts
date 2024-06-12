@@ -1,6 +1,3 @@
-[core]
-pager = "less -+X"
-
 [alias]
 # Taken from https://stackoverflow.com/questions/6245570
 curr-branch = symbolic-ref --short HEAD

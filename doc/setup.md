@@ -24,7 +24,7 @@ source ~/git/personal-scripts/fish_conf/config.fish
 ## ~/.gitconfig
 ```
 [include]
-	path = ~/git/personal-scripts/git_conf/aliases.gitconfig
+	path = ~/git/personal-scripts/git_conf/main.gitconfig
 ```
 
 3. Install vundle for vim:

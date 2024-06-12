@@ -1,0 +1,5 @@
+[core]
+pager = "less -+X"
+
+[include]
+path = aliases.gitconfig
