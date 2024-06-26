@@ -12,6 +12,9 @@ abbr -a --position anywhere -- xxc -- \
 # For macOS `log` tool
 abbr -a --set-cursor slf set log_file \"%\"
 
+# For Xcode memgraphs
+abbr -a --set-cursor smem set memgraph \"%\"
+
 # ls helpers
 abbr -a ll ls -alF
 abbr -a la ls -A

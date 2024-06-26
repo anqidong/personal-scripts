@@ -1,6 +1,9 @@
 [alias]
+
 # Taken from https://stackoverflow.com/questions/6245570
 curr-branch = symbolic-ref --short HEAD
+
+merged = branch --merged  # optional branch argument
 retrack = "!f() { git branch --force \"$1\" \"origin/$1\"; }; f"
 
 resign = commit --am --no-edit -S
