@@ -4,6 +4,10 @@ case $- in
       *) return;;
 esac
 
+if [ -n "${INTELLIJ_ENVIRONMENT_READER}" ]; then
+    return
+fi
+
 if [ -z $NO_AUTO_FISH ]; then
   WHICH_FISH=`which fish`
   if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
