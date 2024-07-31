@@ -1,9 +1,9 @@
 1. Clone this repository into `~/git/personal-scripts`.
 2. Add these importation statements into the following files:
 
-## ~/.profile, ~/.zprofile
+## ~/.profile, ~/.zprofile (macOS)
 ```
-source ~/git/personal-scripts/dotfiles/.profile
+source "$HOME/git/personal-scripts/dotfiles/.profile"
 ```
 
 ## ~/.bashrc
