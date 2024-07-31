@@ -10,10 +10,10 @@ abbr -a --position anywhere -- xxc -- \
   "':!*.pbxproj'" "':!*.plist'" "':!*.xcconfig'" "':!*.xcodeproj/*'"
 
 # For macOS `log` tool
-abbr -a --set-cursor slf set log_file \"%\"
+abbr -a slf set log_file
 
 # For Xcode memgraphs
-abbr -a --set-cursor smem set memgraph \"%\"
+abbr -a smem set memgraph
 
 # ls helpers
 abbr -a ll ls -alF
