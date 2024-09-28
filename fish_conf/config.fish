@@ -1,9 +1,11 @@
-alias ls='ls --color=auto'
+### install plugins via fundle, if possible
+if functions -q fundle
+  fundle plugin 'edc/bass'
 
-alias grep='grep --color=auto'
-alias rgrep='rgrep --color=auto'
-
-alias dog='cat'
+  fundle init
+else
+  print "Skipping fundle packages"
+end
 
 ### tell fish about extra folders of stuff
 if test -d "$HOME/bin"
@@ -125,3 +127,11 @@ function fish_right_prompt -d "Write out the right prompt"
 
   set_color normal
 end
+
+# some silly extra aliases
+alias ls='ls --color=auto'
+
+alias grep='grep --color=auto'
+alias rgrep='rgrep --color=auto'
+
+alias dog='cat'

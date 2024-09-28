@@ -27,11 +27,18 @@ source ~/git/personal-scripts/fish_conf/config.fish
 	path = ~/git/personal-scripts/git_conf/main.gitconfig
 ```
 
-3. Install vundle for vim:
+3. Install vundle for `vim`:
 ```
 > git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 > vim +PluginInstall +qall
 ```
 
-4. If desired, run `set -U fish_color_host <rgb_color>` in fish shell, to
+4. Install fundle for `fish` (optional):
+```
+> mkdir -p ~/.config/fish/functions
+> wget https://git.io/fundle -O ~/.config/fish/functions/fundle.fish
+> fundle install
+```
+
+5. If desired, run `set -U fish_color_host <rgb_color>` in fish shell, to
    customize the prompt colouring.
