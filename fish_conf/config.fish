@@ -1,3 +1,7 @@
+if test -z $_PERSONAL_PROFILE_ACTIVE; and status --is-interactive
+  print "Warning: .profile was not activated"
+end
+
 ### install plugins via fundle, if possible
 if functions -q fundle
   fundle plugin 'edc/bass'
