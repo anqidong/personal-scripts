@@ -12,6 +12,10 @@ if test -d "$HOME/bin"
   fish_add_path -g --path "$HOME/bin"
 end
 
+if test -d "$HOME/.local/bin"
+  fish_add_path -g --path "$HOME/.local/bin"
+end
+
 if test -d "$HOME/git/personal-scripts/bin"
   fish_add_path -g --path "$HOME/git/personal-scripts/bin"
 end
