@@ -1,5 +1,5 @@
 if test -z $_PERSONAL_PROFILE_ACTIVE; and status --is-interactive
-  print "Warning: .profile was not activated"
+  echo "Warning: .profile was not activated"
 end
 
 ### install plugins via fundle, if possible
@@ -8,7 +8,7 @@ if functions -q fundle
 
   fundle init
 else
-  print "Skipping fundle packages"
+  echo "Skipping fundle packages"
 end
 
 ### tell fish about extra folders of stuff
