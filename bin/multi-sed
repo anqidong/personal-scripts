@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+
+import argparse
+import glob
+import os
+import re
+import sys
+
+def is_binary(file_path):
+    with open(file_path, 'rb') as file:
+        chunk = file.read(512)
+        return b'\0' in chunk
+
+def find_and_replace(pattern, replacement, file_path, multiline=False):
+    if is_binary(file_path): return
+
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+
+        flags = re.MULTILINE if multiline else 0
+        new_content = re.sub(pattern, replacement, content, flags=flags)
+
+        if new_content != content:
+            with open(file_path, 'w') as file:
+                file.write(new_content)
+            print(f"Modified: {file_path}")
+    except UnicodeDecodeError:
+        pass  # Silently skip files that can't be decoded as UTF-8
+    except Exception as e:
+        print(f"Error processing {file_path}: {str(e)}")
+
+def process_directory(pattern, replacement, directory, multiline=False):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            find_and_replace(pattern, replacement, file_path, multiline)
+
+def main():
+    parser = argparse.ArgumentParser(
+            description="Find and replace all occurrences in place, "
+                        "across multiple files")
+
+    parser.add_argument("old_pattern", help="Pattern to find")
+    parser.add_argument("new_pattern", help="Pattern to replace with")
+    parser.add_argument("files", nargs="*", default=["."],
+                        help="Files or directories to process")
+    parser.add_argument("-m", "--multiline", action="store_true",
+                        help="Enable multi-line find-and-replace")
+    parser.add_argument("-g", "--glob", action="store_true",
+                        help="Use Python's glob module for file matching")
+
+    args = parser.parse_args()
+
+    if args.glob:
+        file_list = []
+        for path in args.files:
+            if os.path.isdir(path):
+                file_list.append(path)
+            else:
+                file_list.extend(glob.glob(path, recursive=True))
+    else:
+        file_list = args.files
+
+    for path in file_list:
+        if os.path.isfile(path):
+            find_and_replace(args.old_pattern, args.new_pattern,
+                             path, args.multiline)
+        elif os.path.isdir(path):
+            process_directory(args.old_pattern, args.new_pattern, path,
+                              args.multiline)
+        else:
+            print(f"Skipping: {path} (not a file or directory)")
+
+if __name__ == "__main__":
+    main()
