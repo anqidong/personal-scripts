@@ -101,7 +101,7 @@ function fish_right_prompt -d "Write out the right prompt"
   set_color normal; echo -n " "
 
   # Print the username when the user has been changed.
-  if test $USER != $LOGNAME
+  if set -q LOGNAME; and test $USER != $LOGNAME
     set_color black; echo -n "$USER@"
     set_color normal
   end
