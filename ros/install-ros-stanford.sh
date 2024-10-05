@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Set options for better command logging and error handling
-setopt -o xtrace
-setopt -o errexit
+set -euxo pipefail
 
 # Set locale (UTF-8)
 echo "Locale is $(locale)"
@@ -22,16 +21,19 @@ echo "Setting up ROS2 sources..."
 sudo apt install software-properties-common -y
 sudo add-apt-repository universe -y
 sudo apt update && sudo apt install curl -y
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \ 
-   -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
-  http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
+sudo rm -f /usr/share/keyrings/ros-archive-keyring.gpg
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+  -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+  http://packages.ros.org/ros2/ubuntu \
+  $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
   sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null  
 
 
 # Update and upgrade system
 echo "Updating system..."
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 
 # Install ROS2 packages (choose one)
 # Option 1: Desktop Install (Recommended)
@@ -53,10 +55,13 @@ sudo apt update && sudo apt install -y lsb-release wget gnupg
 
 # Setup Gazebo keys and sources
 echo "Setting up Gazebo keys and sources..."
+sudo rm -f /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 sudo wget https://packages.osrfoundation.org/gazebo.gpg \
   -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
-  http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | \
+echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] \
+  http://packages.osrfoundation.org/gazebo/ubuntu-stable \
+  $(lsb_release -cs) main" | \
   sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null  
 
 
@@ -66,7 +71,7 @@ sudo apt update && sudo apt install -y gz-garden
 
 # Initialize rosdep (optional)
 echo "Initializing rosdep (skip if done earlier)..."
-rosdep init &> /dev/null  # Redirect output to avoid potential errors
+rosdep init || true
 
 # Create ROS2 workspace
 echo "Setting up ROS2 workspace..."
@@ -78,21 +83,41 @@ mkdir -p ~/tb_ws/src
 
 # Clone ROS packages
 cd ~/tb_ws/src
-git clone -b humble https://github.com/gazebosim/ros_gz.git
-git clone https://github.com/StanfordASL/asl-tb3-driver.git
-git clone https://github.com/StanfordASL/asl-tb3-utils.git
+
+clone_if_missing() {
+  local repo_url="$1"
+  # Extract the last path component as the target directory
+  local target_dir="${repo_url##*/}"
+
+  shift  # Remove the first argument (repo_url)
+
+  if [[ ! -d "$target_dir" ]]; then
+    git clone "$repo_url" "$target_dir" "$@"
+  fi
+}
+
+clone_if_missing "https://github.com/gazebosim/ros_gz.git" -b humble
+clone_if_missing "https://github.com/StanfordASL/asl-tb3-driver.git"
+clone_if_missing "https://github.com/StanfordASL/asl-tb3-utils.git"
 
 # Install dependencies  
 
 echo "Installing dependencies..."
-source /opt/ros/humble/setup.bash  # Use setup.zsh if using zsh
-rosdep update && rosdep install --from-paths ~/tb_ws/src -r -i -y
+{
+  # The ROS setup.bash script typically will have some uncaught failing commands,
+  # so we wrap it in a subshell to shield it from the stricter bash setup so that
+  # everything is happy.
+  source /opt/ros/humble/setup.bash  # Use setup.zsh if using zsh
+  set -euxo pipefail
 
-# Build the code  
+  rosdep update && rosdep install --from-paths ~/tb_ws/src -r -i -y
 
-echo "Building the code (might take a few minutes)..."
-export GZ_VERSION=garden
-cd ~/tb_ws && colcon build --symlink-install
+  # Build the code  
+
+  echo "Building the code (might take a few minutes)..."
+  export GZ_VERSION=garden
+  cd ~/tb_ws && colcon build --symlink-install
+}
 
 # Update shell configuration (modify for zsh)
 echo "Updating shell configuration..."
