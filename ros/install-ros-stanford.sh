@@ -89,6 +89,9 @@ clone_if_missing() {
   # Extract the last path component as the target directory
   local target_dir="${repo_url##*/}"
 
+  # Remove .git suffix if present
+  target_dir=${target_dir%.git}
+
   shift  # Remove the first argument (repo_url)
 
   if [[ ! -d "$target_dir" ]]; then
