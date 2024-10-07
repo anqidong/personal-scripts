@@ -71,7 +71,7 @@ sudo apt update && sudo apt install -y gz-garden
 
 # Initialize rosdep (optional)
 echo "Initializing rosdep (skip if done earlier)..."
-rosdep init || true
+sudo rosdep init
 
 # Create ROS2 workspace
 echo "Setting up ROS2 workspace..."
@@ -103,24 +103,22 @@ clone_if_missing "https://github.com/StanfordASL/asl-tb3-utils.git"
 # Install dependencies  
 
 echo "Installing dependencies..."
-{
-  # The ROS setup.bash script typically will have some uncaught failing commands,
-  # so we wrap it in a subshell to shield it from the stricter bash setup so that
-  # everything is happy.
-  source /opt/ros/humble/setup.bash  # Use setup.zsh if using zsh
-  set -euxo pipefail
 
-  rosdep update && rosdep install --from-paths ~/tb_ws/src -r -i -y
+# The ROS setup.bash script tries to access unset variables, so we have to
+# remove the check. We just disable the warning for the rest of the script.
+set +u
+source /opt/ros/humble/setup.bash
 
-  # Build the code  
+rosdep update && rosdep install --from-paths ~/tb_ws/src -r -i -y
 
-  echo "Building the code (might take a few minutes)..."
-  export GZ_VERSION=garden
-  cd ~/tb_ws && colcon build --symlink-install
-}
+# Build the code  
+
+echo "Building the code (might take a few minutes)..."
+export GZ_VERSION=garden
+cd ~/tb_ws && colcon build --symlink-install
 
 # Update shell configuration (modify for zsh)
-echo "Updating shell configuration..."
+# echo "Updating shell configuration..."
 # echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 # echo "source \$HOME/tb_ws/install/local_setup.bash" >> ~/.bashrc
 # echo "alias update_tb_ws=\$HOME/tb_ws/src/asl-tb3-utils/scripts/update.sh" >> ~/.bashrc
