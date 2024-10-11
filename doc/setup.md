@@ -36,7 +36,11 @@ source ~/git/personal-scripts/fish_conf/config.fish
 4. Install fundle for `fish` (optional):
 ```
 > mkdir -p ~/.config/fish/functions
+
 > wget https://git.io/fundle -O ~/.config/fish/functions/fundle.fish
+# alternate:
+> curl https://git.io/fundle -Lo ~/.config/fish/functions/fundle.fish
+
 > fundle install
 ```
 
