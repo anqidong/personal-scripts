@@ -12,22 +12,23 @@ else
 end
 
 ### tell fish about extra folders of stuff
-if test -d "$HOME/bin"
-  fish_add_path -g --path "$HOME/bin"
-end
-
 if test -d "$HOME/.local/bin"
   fish_add_path -g --path "$HOME/.local/bin"
 end
 
 if test -d "$HOME/git/personal-scripts/bin"
-  fish_add_path -g --path "$HOME/git/personal-scripts/bin"
+  fish_add_path -g "$HOME/git/personal-scripts/bin"
+end
+
+if test -d "$HOME/bin"
+  fish_add_path -g "$HOME/bin"
 end
 
 begin
   set -l _fish_func_dir (path dirname (status -f))"/functions"
   if test -d $_fish_func_dir
-    set -g -p fish_function_path $_fish_func_dir
+    set -g fish_function_path \
+      $fish_function_path[1] $_fish_func_dir $fish_function_path[2..]
   end
 
   set -l _fish_abbrs_file (path dirname (status -f))"/abbrs.fish"
@@ -37,7 +38,7 @@ begin
 end
 
 if test -d "$HOME/git/work-scripts/bin"
-  fish_add_path -g --path "$HOME/git/work-scripts/bin"
+  fish_add_path -g "$HOME/git/work-scripts/bin"
 end
 
 begin
@@ -45,7 +46,8 @@ begin
 
   set -l _fish_func_dir $_ws"/functions"
   if test -d $_fish_func_dir
-    set -g -p fish_function_path $_fish_func_dir
+    set -g fish_function_path \
+      $fish_function_path[1] $_fish_func_dir $fish_function_path[2..]
   end
 
   set -l _fish_abbrs_file $_ws"/abbrs.fish"
