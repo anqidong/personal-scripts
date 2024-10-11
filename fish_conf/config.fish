@@ -1,4 +1,4 @@
-if test -z $_PERSONAL_PROFILE_ACTIVE; and status --is-interactive
+if test -z $_PERSONAL_PROFILE_ACTIVE; and status is-interactive
   echo "Warning: .profile was not activated"
 end
 
@@ -7,7 +7,7 @@ if functions -q fundle
   fundle plugin 'edc/bass'
 
   fundle init
-else
+else if status is-interactive
   echo "Skipping fundle packages"
 end
 
@@ -25,13 +25,13 @@ if test -d "$HOME/bin"
 end
 
 begin
-  set -l _fish_func_dir (path dirname (status -f))"/functions"
+  set -l _fish_func_dir (status dirname)"/functions"
   if test -d $_fish_func_dir
     set -g fish_function_path \
       $fish_function_path[1] $_fish_func_dir $fish_function_path[2..]
   end
 
-  set -l _fish_abbrs_file (path dirname (status -f))"/abbrs.fish"
+  set -l _fish_abbrs_file (status dirname)"/abbrs.fish"
   if test -f $_fish_abbrs_file
     source $_fish_abbrs_file
   end
