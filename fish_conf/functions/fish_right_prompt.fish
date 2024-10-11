@@ -7,9 +7,9 @@ function fish_right_prompt -d "Write out the right prompt"
     set_color red;    echo -n "⚑"
   end
 
-  # if not gcertstatus -quiet
-  #   set_color red;    echo -n '⏏'
-  # end
+  if functions -q work_auth_needed && work_auth_needed
+    set_color red;    echo -n '⏏'
+  end
 
   # Print a fork symbol when in a subshell
   if test $SHLVL -gt 2
