@@ -5,6 +5,10 @@ curr-branch = symbolic-ref --short HEAD
 
 merged = branch --merged  # optional branch argument
 retrack = "!f() { git branch --force \"$1\" \"origin/$1\"; }; f"
+detach = checkout --detach HEAD
+
+fetchp = fetch --prune
+prune-remote = remote prune  # requires a remote name argument
 
 resign = commit --am --no-edit -S
 sign-from = rebase --force -S  # requires a commit hash argument
