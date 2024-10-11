@@ -3,7 +3,7 @@ function fish_prompt -d "Write out the prompt"
   set -l color_time 777
   set -l suffix '>'
   if functions -q fish_is_root_user; and fish_is_root_user
-      set color_time B83
+      set color_time b20
       set suffix '#'
   end
 
