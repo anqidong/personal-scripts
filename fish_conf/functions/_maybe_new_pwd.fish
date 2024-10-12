@@ -4,7 +4,7 @@ function _maybe_new_pwd -d \
   # set -l fish_trace
 
   # Check for virtualenv
-  set -l maybe_path (find-path-in-any-parent ".venv/bin/activate.fish")
+  set -l maybe_path (ancestor-having-path ".venv/bin/activate.fish")
   if test -n "$maybe_path" && test "$maybe_path" != "$_auto_sourced_venv_path"
     set -g _auto_sourced_venv_path $maybe_path
     set -l venv_script $maybe_path"/.venv/bin/activate.fish"
@@ -13,7 +13,7 @@ function _maybe_new_pwd -d \
   end
 
   # Check for ROS stuff
-  set -l maybe_path (find-path-in-any-parent "install/local_setup.bash")
+  set -l maybe_path (ancestor-having-path "install/local_setup.bash")
   if test -n "$maybe_path" && functions -q bass
     # If this shell has never sourced any ROS stuff, try to also source the
     # shared utils

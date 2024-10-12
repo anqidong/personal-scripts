@@ -1,4 +1,4 @@
-function find-path-in-any-parent --argument-names search_path \
+function ancestor-having-path --argument-names search_path \
   -d "If pwd or any of its parents contains the search path, returns it"
 
     if test -z $search_path
