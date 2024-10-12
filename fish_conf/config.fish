@@ -56,6 +56,13 @@ begin
   end
 end
 
+### set up event listener functions
+function _cd_trigger_helper --on-variable PWD # --on-event fish_prompt
+  _maybe_new_pwd
+end
+
+_maybe_new_pwd  # make sure we also run this during shell init
+
 ### set up fish environment
 set -g fish_color_cwd ff4175
 

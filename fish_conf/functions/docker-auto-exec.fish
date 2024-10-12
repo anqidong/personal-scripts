@@ -16,5 +16,5 @@ function docker-auto-exec
     end
   end
 
-  docker exec -it $_containers $argv
+  docker exec -it "$_containers" $argv
 end
