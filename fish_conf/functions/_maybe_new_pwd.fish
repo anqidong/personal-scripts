@@ -17,7 +17,7 @@ function _maybe_new_pwd -d \
   if test -n "$maybe_path" && functions -q bass
     # If this shell has never sourced any ROS stuff, try to also source the
     # shared utils
-    if test -n "$_auto_sourced_ros_local_setup"
+    if not set -q "$_auto_sourced_ros_local_setup"
       set -l ros_setup /opt/ros/humble/setup.bash
       if test -e $ros_setup
         echo "Sourcing $ros_setup"
