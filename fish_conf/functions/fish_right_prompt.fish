@@ -1,14 +1,50 @@
+function _right_prompt_helper --on-event fish_prompt
+  # Spawn a new process to run slow tasks
+  if functions -q work_auth_needed
+    if not set -q _work_auth_check_pid || \
+        not kill -0 $_work_auth_check_pid 2>/dev/null
+      fish -c "work_auth_needed" &
+      set -l pid $last_pid
+      set -g _work_auth_check_pid $pid
+      if not set -q _work_auth_need_text
+        set -g _work_auth_need_text "?"
+      end
+
+      function _helper_on_exit_$pid \
+          --on-process-exit $pid \
+          --inherit-variable pid
+        functions --erase _helper_on_exit_$pid
+
+        set -l old_text $_work_auth_need_text
+        if test $argv[3] -eq 0
+          set -g _work_auth_need_text "⏏"
+        else
+          set -g _work_auth_need_text ""
+        end
+        echo $_work_auth_need_text
+
+        if test $old_text != $_work_auth_need_text
+          commandline -f force-repaint
+        end
+      end
+    end
+  else  # display nothing if function is not defined
+    set -g _work_auth_need_text ""
+  end
+end
+
 # This overrides a builtin
 function fish_right_prompt -d "Write out the right prompt"
   set -l last_status $status
+
 
   # Print a red dot for failed commands.
   if test $last_status -ne 0
     set_color red;    echo -n "⚑"
   end
 
-  if functions -q work_auth_needed && work_auth_needed
-    set_color red;    echo -n '⏏'
+  if functions -q work_auth_needed
+    set_color red;    echo -n $_work_auth_need_text # echo -n '⏏'
   end
 
   # Print a fork symbol when in a subshell
