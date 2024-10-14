@@ -2,8 +2,8 @@ function _right_prompt_helper --on-event fish_prompt
   # Spawn a new process to run slow tasks
   if functions -q work_auth_needed
     if not set -q _work_auth_check_pid || \
-        not kill -0 $_work_auth_check_pid 2>/dev/null
-      fish -c "work_auth_needed" &
+        not kill -0 $_work_auth_check_pid >/dev/null 2>/dev/null
+      fish -c "work_auth_needed" >/dev/null 2>/dev/null &
       set -l pid $last_pid
       set -g _work_auth_check_pid $pid
       if not set -q _work_auth_need_text
@@ -21,10 +21,9 @@ function _right_prompt_helper --on-event fish_prompt
         else
           set -g _work_auth_need_text ""
         end
-        echo $_work_auth_need_text
 
         if test $old_text != $_work_auth_need_text
-          commandline -f force-repaint
+          commandline -f repaint
         end
       end
     end
