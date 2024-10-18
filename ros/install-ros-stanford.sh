@@ -11,43 +11,43 @@ if ! locale | grep -q UTF-8; then
   sudo locale-gen en_US en_US.UTF-8
   sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
   export LANG=en_US.UTF-8  
-
-  echo "Verifying locale settings..."
-  locale
 fi
 
-# Setup ROS2 sources
-echo "Setting up ROS2 sources..."
-sudo apt install software-properties-common -y
-sudo add-apt-repository universe -y
-sudo apt update && sudo apt install curl -y
-sudo rm -f /usr/share/keyrings/ros-archive-keyring.gpg
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
-  -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) \
-  signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
-  http://packages.ros.org/ros2/ubuntu \
-  $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
-  sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null  
+if [[ -e /usr/share/keyrings/ros2-latest-archive-keyring.gpg ]]; then
+  echo "Apparently this is a ROS docker; skipping ROS install"
+else
+  # Setup ROS2 sources
+  echo "Setting up ROS2 sources..."
+  sudo apt install software-properties-common -y
+  sudo add-apt-repository universe -y
+  sudo apt update && sudo apt install curl -y
+  sudo rm -f /usr/share/keyrings/ros-archive-keyring.gpg
+  sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+    -o /usr/share/keyrings/ros-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+    http://packages.ros.org/ros2/ubuntu \
+    $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
+    sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null  
 
 
-# Update and upgrade system
-echo "Updating system..."
-sudo apt update && sudo apt upgrade -y
+  # Update and upgrade system
+  echo "Updating system..."
+  sudo apt update && sudo apt upgrade -y
 
-# Install ROS2 packages (choose one)
-# Option 1: Desktop Install (Recommended)
-# echo "Installing ROS2 Desktop (recommended)..."
-# sudo apt install ros-humble-desktop
+  # Install ROS2 packages (choose one)
+  # Option 1: Desktop Install (Recommended)
+  # echo "Installing ROS2 Desktop (recommended)..."
+  # sudo apt install ros-humble-desktop
 
-# Option 2: ROS-Base Install (Bare Bones)
-echo "Installing ROS2 Base (bare bones)..."
-sudo apt install -y ros-humble-ros-base
+  # Option 2: ROS-Base Install (Bare Bones)
+  echo "Installing ROS2 Base (bare bones)..."
+  sudo apt install -y ros-humble-ros-base
 
-# Install development tools
-echo "Installing development tools..."
-sudo apt install -y ros-dev-tools
-
+  # Install development tools
+  echo "Installing development tools..."
+  sudo apt install -y ros-dev-tools
+fi
 
 # Install Gazebo Garden dependencies
 echo "Installing Gazebo Garden dependencies..."
@@ -108,9 +108,10 @@ clone_if_missing "https://github.com/StanfordASL/asl-tb3-utils.git"
 echo "Installing dependencies..."
 
 # The ROS setup.bash script tries to access unset variables, so we have to
-# remove the check. We just disable the warning for the rest of the script.
+# remove the check.
 set +u
 source /opt/ros/humble/setup.bash
+set -u
 
 rosdep update && rosdep install --from-paths ~/tb_ws/src -r -i -y
 
