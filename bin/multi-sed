@@ -5,24 +5,50 @@ import glob
 import os
 import re
 import sys
+import stat
 
 def is_binary(file_path):
-    with open(file_path, 'rb') as file:
-        chunk = file.read(512)
-        return b'\0' in chunk
+    with open(file_path, "rb") as file:
+        chunk = file.read(4096)
+        return b"\0" in chunk
 
-def find_and_replace(pattern, replacement, file_path, multiline=False):
-    if is_binary(file_path): return
+def is_hidden(path):
+    """Check if a file or directory is hidden (cross-platform)."""
+    basename = os.path.basename(path)
+    if basename.startswith("."):
+        return True
 
     try:
-        with open(file_path, 'r') as file:
+        if sys.platform == "win32":
+            attributes = os.stat(path).st_file_attributes
+            return bool(attributes & stat.FILE_ATTRIBUTE_HIDDEN)
+        elif sys.platform == "darwin":
+            import Foundation
+            url = Foundation.NSURL.fileURLWithPath_(path)
+            return url.getResourceValue_forKey_error_(
+                None, Foundation.NSURLIsHiddenKey, None)[1]
+        else:
+            return False
+    except:
+        return False
+
+def find_and_replace(pattern, replacement, file_path,
+                     multiline=False, include_hidden=False):
+    if not include_hidden and is_hidden(file_path):
+        return
+
+    if is_binary(file_path):
+        return
+
+    try:
+        with open(file_path, "r") as file:
             content = file.read()
 
         flags = re.MULTILINE if multiline else 0
         new_content = re.sub(pattern, replacement, content, flags=flags)
 
         if new_content != content:
-            with open(file_path, 'w') as file:
+            with open(file_path, "w") as file:
                 file.write(new_content)
             print(f"Modified: {file_path}")
     except UnicodeDecodeError:
@@ -30,11 +56,17 @@ def find_and_replace(pattern, replacement, file_path, multiline=False):
     except Exception as e:
         print(f"Error processing {file_path}: {str(e)}")
 
-def process_directory(pattern, replacement, directory, multiline=False):
-    for root, _, files in os.walk(directory):
+def process_directory(pattern, replacement, directory,
+                      multiline=False, include_hidden=False):
+    for root, dirs, files in os.walk(directory):
+        if (not include_hidden and
+            any((is_hidden(os.path.join(root, d)) for d in dirs))):
+            continue
+
         for file in files:
             file_path = os.path.join(root, file)
-            find_and_replace(pattern, replacement, file_path, multiline)
+            find_and_replace(pattern, replacement, file_path,
+                             multiline=multiline, include_hidden=include_hidden)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -49,6 +81,8 @@ def main():
                         help="Enable multi-line find-and-replace")
     parser.add_argument("-g", "--glob", action="store_true",
                         help="Use Python's glob module for file matching")
+    parser.add_argument("--include-hidden", action="store_true",
+                        help="Include hidden files and directories")
 
     args = parser.parse_args()
 
@@ -64,11 +98,11 @@ def main():
 
     for path in file_list:
         if os.path.isfile(path):
-            find_and_replace(args.old_pattern, args.new_pattern,
-                             path, args.multiline)
+            find_and_replace(args.old_pattern, args.new_pattern, path,
+                             args.multiline, args.include_hidden)
         elif os.path.isdir(path):
             process_directory(args.old_pattern, args.new_pattern, path,
-                              args.multiline)
+                              args.multiline, args.include_hidden)
         else:
             print(f"Skipping: {path} (not a file or directory)")
 
