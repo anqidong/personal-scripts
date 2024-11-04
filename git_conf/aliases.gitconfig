@@ -19,3 +19,4 @@ fixup = commit -a --fixup  # requires a commit hash argument
 autosq = rebase -i --autosquash  # requires a commit hash argument
 
 absorbs = absorb -r --base  # requires a commit hash argument
+ama = commit --am -a

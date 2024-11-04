@@ -1,8 +1,11 @@
+[include]
+path = aliases.gitconfig
+
 [core]
 pager = "less -+X"
 
 [grep]
 lineNumber = true
 
-[include]
-path = aliases.gitconfig
+[log]
+follow = true
