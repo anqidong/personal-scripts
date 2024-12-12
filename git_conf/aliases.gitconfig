@@ -11,6 +11,8 @@ detach = checkout --detach HEAD
 
 fetchp = fetch --prune
 prune-remote = remote prune  # requires a remote name argument
+# Does a comparision relative to the current HEAD
+delete-merged = "!git for-each-ref --format=\"%(refname:short)\" refs/heads | xargs git branch -d"
 
 resign = commit --am --no-edit -S
 sign-from = rebase --force -S  # requires a commit hash argument
