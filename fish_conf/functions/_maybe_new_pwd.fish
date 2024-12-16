@@ -3,14 +3,14 @@ function _attempt_source_ros
     return
   end
 
-  set -l maybe_path (ancestor-having-path "install/local_setup.bash")
-  if test -z "$maybe_path"
-    return
-  end
-
   set -l ros_setup /opt/ros/humble/setup.bash
   if not test -e "$ros_setup"
     # ROS not installed on this machine, skip everything
+    return
+  end
+
+  set -l maybe_path (ancestor-having-path "install/local_setup.bash")
+  if test -z "$maybe_path"
     return
   end
 
