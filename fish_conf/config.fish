@@ -12,16 +12,8 @@ else if status is-interactive
 end
 
 ### tell fish about extra folders of stuff
-if test -d "$HOME/.local/bin"
-  fish_add_path -g --path "$HOME/.local/bin"
-end
-
 if test -d "$HOME/git/personal-scripts/bin"
   fish_add_path -g "$HOME/git/personal-scripts/bin"
-end
-
-if test -d "$HOME/bin"
-  fish_add_path -g "$HOME/bin"
 end
 
 begin
@@ -54,6 +46,14 @@ begin
   if test -f $_fish_abbrs_file
     source $_fish_abbrs_file
   end
+end
+
+if test -d "$HOME/.local/bin"
+  fish_add_path -g --path "$HOME/.local/bin"
+end
+
+if test -d "$HOME/bin"
+  fish_add_path -g "$HOME/bin"
 end
 
 ### set up event listener functions
