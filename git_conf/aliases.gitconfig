@@ -17,6 +17,9 @@ delete-merged = "!git for-each-ref --format=\"%(refname:short)\" refs/heads | xa
 resign = commit --am --no-edit -S
 sign-from = rebase --force -S  # requires a commit hash argument
 
+# Try the commit again if it failed due to signing issues, recovering the old commit message
+rcommit = !"git commit -t .git/COMMIT_EDITMSG"
+
 fixup = commit -a --fixup  # requires a commit hash argument
 autosq = rebase -i --autosquash  # requires a commit hash argument
 
