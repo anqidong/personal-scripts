@@ -25,3 +25,5 @@ autosq = rebase -i --autosquash  # requires a commit hash argument
 
 absorbs = absorb -r --base  # requires a commit hash argument
 ama = commit --am -a
+
+raw-commit = log --format=%B -n 1  # optional commit hash argument
