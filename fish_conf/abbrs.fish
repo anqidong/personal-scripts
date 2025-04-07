@@ -9,6 +9,8 @@ abbr -a --position anywhere grew grep -Finw -C 5
 abbr -a --position anywhere -- xxc -- \
   "':!*.pbxproj'" "':!*.plist'" "':!*.xcconfig'" "':!*.xcodeproj/*'"
 
+abbr -a --position anywhere -- --fuller --format=fuller
+
 # For macOS `log` tool
 abbr -a slf set log_file
 
