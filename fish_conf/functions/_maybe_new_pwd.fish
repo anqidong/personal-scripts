@@ -44,11 +44,21 @@ function _maybe_new_pwd -d \
 
   # Check for virtualenv
   set -l maybe_path (ancestor-having-path ".venv/bin/activate.fish")
-  if test -n "$maybe_path" && test "$maybe_path" != "$_auto_sourced_venv_path"
-    set -g _auto_sourced_venv_path $maybe_path
-    set -l venv_script $maybe_path"/.venv/bin/activate.fish"
-    echo "Sourcing $venv_script"
-    source $venv_script
+
+  if test -z "$maybe_path"
+    if set -q _auto_sourced_venv_path && \
+       test (path normalize "$_auto_sourced_venv_path""/.venv") = $VIRTUAL_ENV
+      echo "Deactivating $VIRTUAL_ENV"
+      deactivate
+      set --erase _auto_sourced_venv_path
+    end
+  else  # test -n "$maybe_path"
+    if test "$maybe_path" != "$_auto_sourced_venv_path"
+      set -g _auto_sourced_venv_path $maybe_path
+      set -l venv_script $maybe_path"/.venv/bin/activate.fish"
+      echo "Sourcing $venv_script"
+      source $venv_script
+    end
   end
 
   # Check for ROS stuff
