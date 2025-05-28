@@ -80,6 +80,7 @@ let g:is_posix = 1
 
 " custom settings
 set mouse=ar mousemodel=extend
+set ruler
 set number
 set relativenumber
 set clipboard^=unnamed,unnamedplus  " y, d copy to system clipboard, p pastes from
