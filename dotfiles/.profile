@@ -30,6 +30,9 @@ export EDITOR=vim
 # For gcc auto-color
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# Python setup
+export PIP_REQUIRE_VIRTUALENV=true
+
 case $(uname) in
   "Darwin"*)
     export BASH_SILENCE_DEPRECATION_WARNING=1

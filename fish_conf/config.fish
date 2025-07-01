@@ -2,6 +2,9 @@ if test -z $_PERSONAL_PROFILE_ACTIVE; and status is-interactive
   echo "Warning: .profile was not activated"
 end
 
+### some safeguard setup in case .profile wasn't activated
+set -x PIP_REQUIRE_VIRTUALENV true
+
 ### install plugins via fundle, if possible
 if functions -q fundle
   fundle plugin 'edc/bass'

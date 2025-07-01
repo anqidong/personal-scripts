@@ -17,6 +17,9 @@ abbr -a slf set log_file
 # For Xcode memgraphs
 abbr -a smem set memgraph
 
+# Misc macOS
+abbr -a caf caffeinate
+
 # ls helpers
 abbr -a ll ls -alF
 abbr -a la ls -A
