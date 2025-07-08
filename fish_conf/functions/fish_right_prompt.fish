@@ -36,6 +36,10 @@ end
 function fish_right_prompt -d "Write out the right prompt"
   set -l last_status $status
 
+  if set -q _hack_prompt_status
+    set last_status $_hack_prompt_status
+  end
+
   if test $last_status -ne 0
     set_color red;    echo -n "⚑"
   end
