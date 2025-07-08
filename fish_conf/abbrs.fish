@@ -21,7 +21,13 @@ abbr -a smem set memgraph
 abbr -a caf caffeinate
 
 # ls helpers
-abbr -a ll ls -alF
-abbr -a la ls -A
-abbr -a l ls -CF
-
+if command -q eza
+  abbr -a lgit eza --git -A
+  abbr -a ll eza -AgHlF
+  abbr -a la eza -AF
+  abbr -a l eza -GF
+else
+  abbr -a ll ls -AClF
+  abbr -a la ls -AF
+  abbr -a l ls -CF
+end
