@@ -27,3 +27,10 @@ absorbs = absorb -r --base  # requires a commit hash argument
 ama = commit --am -a
 
 raw-commit = log --format=%B -n 1  # optional commit hash argument
+
+# For common typos
+pulll = pull
+commi = commit
+statu = status
+lo = log
+sho = show
