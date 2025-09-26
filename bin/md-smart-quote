@@ -1,0 +1,192 @@
+#!/usr/bin/env python3
+"""
+markdown-curly-quotes: Convert straight quotes to curly quotes in Markdown text,
+using AST parsing to identify safe regions for replacement.
+"""
+
+import sys
+import argparse
+import re
+from markdown_it import MarkdownIt
+from markdown_it.token import Token
+from typing import List, Tuple, Set
+
+# Unicode escapes for curly quotes
+LEFT_DOUBLE_QUOTE = '\u201c'   # "
+RIGHT_DOUBLE_QUOTE = '\u201d'  # "
+LEFT_SINGLE_QUOTE = '\u2018'   # '
+RIGHT_SINGLE_QUOTE = '\u2019'  # '
+
+class TextRange:
+    def __init__(self, start: int, end: int, line_start: int, line_end: int):
+        self.start = start  # Character position in full text
+        self.end = end      # Character position in full text
+        self.line_start = line_start  # Line number (0-based)
+        self.line_end = line_end      # Line number (0-based)
+
+def collect_protected_ranges(tokens: List[Token], lines: List[str]) -> Set[Tuple[int, int]]:
+    """Collect character ranges that should not be processed (code, HTML, etc.)."""
+    protected_ranges = set()
+    
+    def add_token_range(token: Token):
+        if token.map is None:
+            return
+        
+        line_start, line_end = token.map
+        
+        # Calculate character positions
+        char_start = sum(len(lines[i]) for i in range(line_start))
+        char_end = sum(len(lines[i]) for i in range(line_end))
+        
+        protected_ranges.add((char_start, char_end))
+    
+    def process_token_list(token_list: List[Token]):
+        for token in token_list:
+            # Protect code blocks, inline code, HTML, and other non-text content
+            if token.type in [
+                'code_inline', 'code_block', 'fence',
+                'html_inline', 'html_block', 'html_raw',
+                'link', 'image'  # Protect link URLs and image paths
+            ]:
+                add_token_range(token)
+            
+            # Recursively process children
+            if hasattr(token, 'children') and token.children:
+                process_token_list(token.children)
+    
+    process_token_list(tokens)
+    return protected_ranges
+
+def is_position_protected(pos: int, protected_ranges: Set[Tuple[int, int]]) -> bool:
+    """Check if a character position is within any protected range."""
+    for start, end in protected_ranges:
+        if start <= pos < end:
+            return True
+    return False
+
+def is_quote_opening(text: str, pos: int) -> bool:
+    """Determine if a quote at position should be opening or closing."""
+    if pos == 0:
+        return True
+    
+    prev_char = text[pos - 1]
+    
+    # Opening after whitespace or opening punctuation
+    if prev_char.isspace() or prev_char in '([{—–-':
+        return True
+    
+    return False
+
+def convert_quotes_with_protection(text: str, protected_ranges: Set[Tuple[int, int]]) -> str:
+    """Convert quotes in text while avoiding protected ranges."""
+    if not text:
+        return text
+    
+    result = list(text)  # Work with mutable list for easier replacement
+    
+    i = 0
+    while i < len(text):
+        if is_position_protected(i, protected_ranges):
+            i += 1
+            continue
+            
+        char = text[i]
+        
+        if char == '"':
+            if is_quote_opening(text, i):
+                result[i] = LEFT_DOUBLE_QUOTE
+            else:
+                result[i] = RIGHT_DOUBLE_QUOTE
+        elif char == "'":
+            # Handle apostrophes in contractions (letter before and after)
+            if (i > 0 and i < len(text) - 1 and 
+                text[i - 1].isalpha() and text[i + 1].isalpha()):
+                result[i] = RIGHT_SINGLE_QUOTE
+            # Handle possessive 's (letter before, 's after)
+            elif (i > 0 and i < len(text) - 1 and 
+                  text[i - 1].isalpha() and text[i + 1:i + 2] == 's' and
+                  (i + 2 >= len(text) or not text[i + 2].isalpha())):
+                result[i] = RIGHT_SINGLE_QUOTE
+            else:
+                # Use same opening/closing logic as double quotes
+                if is_quote_opening(text, i):
+                    result[i] = LEFT_SINGLE_QUOTE
+                else:
+                    result[i] = RIGHT_SINGLE_QUOTE
+        
+        i += 1
+    
+    return ''.join(result)
+
+def process_markdown(content: str) -> str:
+    """Process markdown content using AST-guided replacement."""
+    try:
+        # Create markdown parser
+        md = MarkdownIt('commonmark', {'html': True})
+        
+        # Parse into tokens
+        tokens = md.parse(content)
+        
+        # Split content into lines (preserving line endings)
+        lines = content.splitlines(keepends=True)
+        
+        # Collect protected ranges
+        protected_ranges = collect_protected_ranges(tokens, lines)
+        
+        # Convert quotes while respecting protected ranges
+        return convert_quotes_with_protection(content, protected_ranges)
+        
+    except ImportError:
+        print("Error: markdown-it-py not installed. Install with: pip install markdown-it-py", 
+              file=sys.stderr)
+        sys.exit(1)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Convert straight quotes to curly quotes in Markdown files'
+    )
+    parser.add_argument('file', nargs='?', 
+                       help='Markdown file to process (stdin if not provided)')
+    parser.add_argument('-o', '--output', 
+                       help='Output file (stdout if not provided)')
+    parser.add_argument('--in-place', '-i', action='store_true', 
+                       help='Modify file in place')
+    parser.add_argument('--debug', action='store_true',
+                       help='Show protected ranges for debugging')
+    
+    args = parser.parse_args()
+    
+    # Read input
+    if args.file:
+        with open(args.file, 'r', encoding='utf-8') as f:
+            content = f.read()
+    else:
+        content = sys.stdin.read()
+    
+    if args.debug:
+        # Show protected ranges for debugging
+        md = MarkdownIt('commonmark', {'html': True})
+        tokens = md.parse(content)
+        lines = content.splitlines(keepends=True)
+        protected_ranges = collect_protected_ranges(tokens, lines)
+        
+        print("Protected ranges:", file=sys.stderr)
+        for start, end in sorted(protected_ranges):
+            protected_text = content[start:end].replace('\n', '\\n')
+            print(f"  {start}-{end}: {repr(protected_text)}", file=sys.stderr)
+    
+    # Process content
+    processed_content = process_markdown(content)
+    
+    # Write output
+    if args.in_place and args.file:
+        with open(args.file, 'w', encoding='utf-8') as f:
+            f.write(processed_content)
+    elif args.output:
+        with open(args.output, 'w', encoding='utf-8') as f:
+            f.write(processed_content)
+    else:
+        sys.stdout.write(processed_content)
+
+if __name__ == '__main__':
+    main()
