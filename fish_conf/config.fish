@@ -5,15 +5,6 @@ end
 ### some safeguard setup in case .profile wasn't activated
 set -x PIP_REQUIRE_VIRTUALENV true
 
-### install plugins via fundle, if possible
-if functions -q fundle
-  fundle plugin 'edc/bass'
-
-  fundle init
-else if status is-interactive
-  echo "Skipping fundle packages"
-end
-
 ### tell fish about extra folders of stuff
 if test -d "$HOME/git/personal-scripts/bin"
   fish_add_path -g "$HOME/git/personal-scripts/bin"
@@ -57,6 +48,23 @@ end
 
 if test -d "$HOME/bin"
   fish_add_path -g "$HOME/bin"
+end
+
+### install plugins via fundle, if possible
+
+# We have to load our own functions first, as otherwise fundle will set its own
+# fish_user_key_bindings function and eat the one that we are trying to define
+# in this repository's function folder.
+#
+# TODO: This ordering means that fundle functions take priority over ones we
+# custom-defined. Will this create conflicts?
+
+if functions -q fundle
+  fundle plugin 'edc/bass'
+
+  fundle init
+else if status is-interactive
+  echo "Skipping fundle packages"
 end
 
 ### set up event listener functions
