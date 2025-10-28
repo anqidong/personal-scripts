@@ -1,3 +1,26 @@
+function _helper_mode_prompt
+  set_color normal
+  echo -n ' '
+
+  switch $fish_bind_mode
+      case default
+          set_color --bold red
+          echo -n '[:]'
+      case insert
+          set_color --bold green
+          echo -n '[i]'
+      case replace_one
+          set_color --bold green
+          echo -n '[r]'
+      case replace
+          set_color --bold cyan
+          echo -n '[R]'
+      case visual
+          set_color --bold magenta
+          echo -n '[V]'
+  end
+end
+
 # This overrides a builtin
 function fish_prompt -d "Write out the prompt"
   # Hack: Dump this to a global variable for fish_right_prompt, whose $status
@@ -20,6 +43,8 @@ function fish_prompt -d "Write out the prompt"
   if test -n WINDOW -a "$WINDOW" != ''
     printf '%s(%s)' (set_color white) (echo $WINDOW)
   end
+
+  _helper_mode_prompt
 
   echo -ns (set_color normal) $suffix ' '
 end
