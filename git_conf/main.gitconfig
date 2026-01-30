@@ -9,3 +9,6 @@ lineNumber = true
 
 [log]
 follow = true
+
+[pull]
+rebase = true
