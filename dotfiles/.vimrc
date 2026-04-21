@@ -125,6 +125,9 @@ endfunction
 
 " autocmd FileType c :call KernelTabRules()
 
+" Markdown files should wrap on words
+autocmd FileType markdown setlocal wrap linebreak " nolist
+
 " set text width for hg commits
 autocmd Filetype hgcommit setlocal textwidth=72
 
@@ -136,6 +139,10 @@ nnoremap <F5> :TlistToggle <Bar> NERDTreeToggle <CR>
 " autocmd BufWritePost * :TlistUpdate
 
 nnoremap <F6> :TlistShowPrototype <CR>
+
+" Move by visual line instead of physical line
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 
 function ToggleTabRules()
   if &tabstop ==? 2
