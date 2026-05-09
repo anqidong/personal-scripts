@@ -89,6 +89,20 @@ set showcmd
 
 set incsearch
 
+" Teach `gq` (used by <Leader>w) about bullet and numbered lists so
+" continuation lines get indented under the bullet instead of flushing
+" left. `formatlistpat` defines the list-marker regex; `formatoptions+=n`
+" makes the formatter actually honor it. Set globally so it also applies
+" to commit messages, plain text, etc. (Won't format bullets inside
+" code comments, but close enough.)
+"
+" `autoindent` is required for the `n` flag to take effect — the wrap
+" logic reaches into autoindent's machinery to determine how far to
+" indent continuation lines. Without it, the `n` flag silently no-ops.
+set autoindent
+set formatoptions+=n
+set formatlistpat=^\\s*\\(\\d\\+[.)]\\\|[-*+]\\)\\s\\+
+
 " show tabs and soft wraps with screen characters
 set list listchars=tab:»\ 
 set showbreak=↪\ 
