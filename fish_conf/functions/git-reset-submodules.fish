@@ -1,10 +1,9 @@
 function git-reset-submodules -d "Hard resets all submodules to HEAD"
-  set -f submodule_path "."
-
   if count $argv
-    set -f submodule_path $argv[1]
     pushd $argv[1]
   end
+
+  set -f submodule_path "."
 
   git submodule foreach --recursive 'git submodule deinit -f --all' && \
   git submodule deinit -f -- "$submodule_path" && \
