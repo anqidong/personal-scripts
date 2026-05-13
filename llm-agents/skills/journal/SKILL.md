@@ -33,11 +33,11 @@ The script splits multi-day sessions at midnight boundaries, so a session that s
 
 ### 2. Fan out subagents for summarization
 
-Group transcripts by date from the manifest. Spawn parallel subagents (use `haiku` model) with ~5-6 transcripts each. Each subagent should:
+Group transcripts by date from the manifest. Spawn parallel subagents (can use `haiku` model) with ~5-6 transcripts each. Each subagent should:
 
 - Read its assigned slimmed transcript files
-- Produce 2-4 bullet points per session (under 25 words each). This should be dynamic based on the length of the session: short summary for simple sessions; more bullet points for long or complex or wide-ranging sessions.
-- **Name names**: keep tool/framework names, bug tracker numbers, PR numbers. Drop commit hashes, file paths, and implementation details — this is a work summary, not a changelog.
+- Produce 2-4 bullet points per session (starting point: under 25 words each). This should be dynamic based on the length of the session: short summary for simple sessions; more bullet points for long or complex or wide-ranging sessions.
+- **Name identifying details**: keep tool/framework names, bug tracker numbers, PR numbers. Drop commit hashes, file paths, and implementation details — this is a work summary, not a changelog.
 - Label each session with its project name
 - Group output by date
 
@@ -63,7 +63,7 @@ Combine all subagent summaries into a single chronological journal. Present to t
 - Haiku is sufficient for summarization, but the prompt needs to be specific about what to keep vs drop — without guidance it over-compresses and loses proper nouns (tool names, ticket refs). The bullet instructions above are load-bearing.
 - Aim for ~5 parallel subagents max to balance speed vs overhead.
 - Skip the current session's transcript (it will be incomplete/in-progress).
-- The user's default shell is fish. Use `xargs` pipelines rather than bash variable expansion to pass file lists, and avoid bash-specific syntax like `[[ ]]` in inline commands.
+- The user's default shell may be fish. Use `xargs` pipelines rather than bash variable expansion to pass file lists, and avoid bash-specific syntax like `[[ ]]` in inline commands.
 
 ## Known shortcomings
 

@@ -20,7 +20,7 @@ first word after a colon:
 - Bad: "Location Fetch: Detailed Design"
 - Good: "Location fetch: Detailed design"
 
-Use "nice" formatting, such as `` for code.
+Use "nice" formatting, such as backticks for code.
 
 When producing artifacts that will be shared with coworkers — bug tracker
 tickets, PR descriptions, commit messages, code comments, documentation —
@@ -32,18 +32,22 @@ Prefix terminal responses with a mode indicator on the first line:
 
 In casual mode, please throw in some dad jokes and puns.
 
+Avoid leaning on "honest" / "honestly" / "to be honest" as filler. It's a tic
+— the sentence is almost always stronger without it. Especially watch for it
+in shareable artifacts (commit messages, PR descriptions, docs). Use the word
+only when literally discussing honesty or truthfulness.
+
 ## Guardrails
 
-### Git Safety
+### Git safety
 
-- You may run `git fetch`
+- You may run `git fetch`.
 - **Never** run commands that change HEAD without explicit user approval (e.g.,
   `git checkout`, `git reset`, `git merge`, `git rebase`, `git pull`)
 - Always use `git stash apply` instead of `git stash pop`. Only drop a stash
-  manually with `git stash drop` after confirming the working tree looks
-  correct.
+  manually with `git stash drop` after the user allows it.
 
-### Code Modifications
+### Code modifications
 
 **When uncertain about an API or internal behavior, ask rather than guess.**
 Hallucinated API calls are worse than asking a clarifying question.
@@ -53,7 +57,8 @@ changes that would remove or modify existing comments:
 - In plan mode, explicitly describe which comments would be removed and why
 - Do not remove comments as part of "cleanup" unless the user requested it
 - Informational comments, design rationale, and explanations should be
-  preserved even if surrounding code changes
+  preserved even if surrounding code changes, assuming that their contents are
+  still correct and relevant
 - Only TODO/FIXME comments tied to completed work are candidates for removal
 
 ## Commit messages
@@ -76,15 +81,15 @@ Good sources to reach for, beyond the common tech vocabulary:
 
 - **Latin and Greek ISV stems**, which compose freely into coinages that are
   immediately legible to a reader who knows the roots.
-- **Literary, classical, or academic English vocabulary** of the sort a
-  thesaurus would surface.
+- **Formal, literary, or classical vocabulary** — words from academic
+  writing or from literary traditions (such as the Western canon).
 - **Domain-specific terminology** borrowed from the relevant field (medicine,
   music theory, social sciences, etc.).
 - **Loanwords** from other languages for concepts English lacks a clean
   equivalent for, provided the word appears in an unabridged English dictionary
   (this excludes most romanized East Asian terms, where homonyms make the
-  meaning ambiguous to an English reader). A thesaurus won't surface these;
-  propose them when they genuinely fit.
+  meaning ambiguous to an English reader). Propose them when they genuinely
+  fit.
 
 Aim for words a well-read reader would recognize or be curious to look up — not
 so esoteric that coworkers need to reach for a dictionary on every identifier.

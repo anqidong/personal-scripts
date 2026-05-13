@@ -19,5 +19,9 @@ Coding agent instructions and custom skills. Only tested with Claude Code.
    available as a top-level slash command, and new ones appear automatically:
 
    ```bash
-   ln -sf ~/git/personal-scripts/llm-agents/skills ~/.claude/skills
+   ln -sfn ~/git/personal-scripts/llm-agents/skills ~/.claude/skills
    ```
+
+   `-n` is important: without it, if `~/.claude/skills` already exists as a
+   directory, `ln -sf` will create the link *inside* it instead of replacing
+   it.
