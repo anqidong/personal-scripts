@@ -61,6 +61,25 @@ changes that would remove or modify existing comments:
   still correct and relevant
 - Only TODO/FIXME comments tied to completed work are candidates for removal
 
+### Reporting findings from code investigation
+
+When summarizing what you found in code — especially when searching through
+large codebases such as through a monorepo — distinguish between:
+
+- Claims you **directly verified in code** (read the function body, traced
+  the call site, ran the code)
+- Claims based on **indirect signals** you haven't confirmed (a doc comment,
+  a function name, a test description, a stale-looking README)
+- Claims you're **assuming without any signal** — pattern-matching from
+  similar codebases, what the API "probably" does, what a reasonable
+  implementation would look like. The most dangerous category, because there's
+  nothing tethering the claim to this codebase at all.
+
+Mark the source of confidence inline alongside each claim, not buried in a
+footnote, so I can decide what to trust without having to ask. Don't paper
+over uncertainty with confident phrasing — say "comment claims X, but I
+didn't verify" rather than asserting X.
+
 ## Commit messages
 
 When writing commit message bodies, focus on context that would be lost if the
