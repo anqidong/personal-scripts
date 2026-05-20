@@ -17,6 +17,9 @@ delete-merged = "!git for-each-ref --format=\"%(refname:short)\" refs/heads | xa
 resign = commit --am --no-edit -S
 sign-from = rebase --force -S  # requires a commit hash argument
 
+# Safer force-push: refuse if remote has commits not in local history.
+pushf = push --force-with-lease --force-if-includes
+
 # Try the commit again if it failed due to signing issues, recovering the old commit message
 rcommit = !"git commit -t .git/COMMIT_EDITMSG"
 

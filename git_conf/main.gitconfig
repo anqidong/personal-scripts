@@ -12,3 +12,6 @@ follow = true
 
 [pull]
 rebase = true
+
+[push]
+useForceIfIncludes = true
