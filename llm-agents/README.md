@@ -27,6 +27,28 @@ CLI.
    directory, `ln -sf` will create the link *inside* it instead of replacing
    it.
 
+3. **Allowlist the ephemeral state directory.** Some skills persist run
+   state, venvs, or other reusable caches under `~/.local/claude-state/`
+   (see the "Ephemeral state and caches" section in `AGENTS.md`). To avoid
+   permission prompts every time a skill reads or writes there, either run
+   `/permissions` inside Claude Code and add:
+
+   ```
+   Read(/Users/<you>/.local/claude-state/**)
+   Write(/Users/<you>/.local/claude-state/**)
+   ```
+
+   …or edit `~/.claude/settings.json` directly:
+
+   ```json
+   "permissions": {
+     "allow": [
+       "Read(/Users/<you>/.local/claude-state/**)",
+       "Write(/Users/<you>/.local/claude-state/**)"
+     ]
+   }
+   ```
+
 ## Setup for Gemini CLI
 
 1. **Reference `AGENTS.md` from your global `GEMINI.md`**:

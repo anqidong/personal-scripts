@@ -118,3 +118,15 @@ so esoteric that coworkers need to reach for a dictionary on every identifier.
 When saving memories, default to global scope (`~/.claude/memory/`) unless the
 content is genuinely specific to one project's codebase or conventions. If
 there's ambiguity about whether something is global or project-scoped, ask.
+
+## Ephemeral state and caches
+
+Skills that need a persistent scratch area — small state files tracking run
+progress or negotiated decisions, Python venvs, model caches, or anything
+else that's expensive to rebuild and shouldn't get wiped on reboot — should
+put it under `~/.local/claude-state/<skill-name>/`. The directory is
+human-inspectable, and the user can delete a subtree to force a skill back
+to a clean slate.
+
+Truly throwaway artifacts (one-shot downloads, large unpacked archives,
+anything you wouldn't mind losing on reboot) still belong under `/tmp/`.
