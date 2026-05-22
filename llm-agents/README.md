@@ -1,6 +1,7 @@
 # LLM agent skills
 
-Coding agent instructions and custom skills. Only tested with Claude Code.
+Coding agent instructions and custom skills. Tested with Claude Code and Gemini
+CLI.
 
 ## Setup for Claude Code
 
@@ -25,3 +26,19 @@ Coding agent instructions and custom skills. Only tested with Claude Code.
    `-n` is important: without it, if `~/.claude/skills` already exists as a
    directory, `ln -sf` will create the link *inside* it instead of replacing
    it.
+
+## Setup for Gemini CLI
+
+1. **Reference `AGENTS.md` from your global `GEMINI.md`**:
+
+   Gemini CLI supports a global context file at `~/.gemini/GEMINI.md` that
+   provides default instructions across all projects. It doesn't auto-load as
+   aggressively as Claude Code, so we need to be more directed.
+
+   Create or edit this file to include an explicit instruction to read your
+   agent files:
+
+   ```markdown
+   Please read and strictly adhere to the agent instructions defined in these files:
+   - ~/git/personal-scripts/llm-agents/AGENTS.md
+   ```
