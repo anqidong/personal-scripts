@@ -35,7 +35,7 @@ CLI.
 
    ```
    Read(/Users/<you>/.local/claude-state/**)
-   Write(/Users/<you>/.local/claude-state/**)
+   Edit(/Users/<you>/.local/claude-state/**)
    ```
 
    …or edit `~/.claude/settings.json` directly:
@@ -44,7 +44,7 @@ CLI.
    "permissions": {
      "allow": [
        "Read(/Users/<you>/.local/claude-state/**)",
-       "Write(/Users/<you>/.local/claude-state/**)"
+       "Edit(/Users/<you>/.local/claude-state/**)"
      ]
    }
    ```
@@ -58,9 +58,23 @@ CLI.
    aggressively as Claude Code, so we need to be more directed.
 
    Create or edit this file to include an explicit instruction to read your
-   agent files:
+   agent files. You can stack multiple files to combine personal and
+   employer-specific rules (only include paths that actually exist on the
+   machine):
 
    ```markdown
+   # Global Gemini Instructions
+
    Please read and strictly adhere to the agent instructions defined in these files:
    - ~/git/personal-scripts/llm-agents/AGENTS.md
+   - ~/git/work-scripts/llm-agents/AGENTS.md
+
+   Always refer to these files for tone, guardrails, commit messages, and internal tooling guidelines.
+   ```
+
+2. **Symlink the skills folder** into `~/.gemini/` so every skill here is
+   available, and new ones appear automatically:
+
+   ```bash
+   ln -sfn ~/git/personal-scripts/llm-agents/skills ~/.gemini/skills
    ```
