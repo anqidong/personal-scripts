@@ -49,6 +49,14 @@ CLI.
    }
    ```
 
+4. **Extend transcript retention.** Claude Code defaults to deleting transcripts
+   after 30 days. To keep them indefinitely, set `cleanupPeriodDays` in
+   `~/.claude/settings.json`:
+
+   ```json
+   "cleanupPeriodDays": 3650
+   ```
+
 ## Setup for Gemini CLI
 
 1. **Reference `AGENTS.md` from your global `GEMINI.md`**:
