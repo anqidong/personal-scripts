@@ -33,11 +33,12 @@ The script splits multi-day sessions at midnight boundaries, so a session that s
 
 ### 2. Fan out subagents for summarization
 
-Group transcripts by date from the manifest. Spawn parallel subagents (can use `haiku` model) with ~5-6 transcripts each. Each subagent should:
+Group transcripts by date from the manifest. Spawn parallel subagents (use `sonnet` model), targeting ~5-6 transcripts per agent (scale agent count up as needed to cover all sessions). Each subagent should:
 
-- Read its assigned slimmed transcript files
+- Read ALL assigned slimmed transcript files — do not stop early or skip files. Use chunked reads for long files.
 - Produce 2-4 bullet points per session (starting point: under 25 words each). This should be dynamic based on the length of the session: short summary for simple sessions; more bullet points for long or complex or wide-ranging sessions.
 - **Name identifying details**: keep tool/framework names, bug tracker numbers, PR numbers. Drop commit hashes, file paths, and implementation details — this is a work summary, not a changelog.
+- **Distinguish outcomes from investigations**: use "investigated" or "explored" for sessions that end without resolution. Do not promote hypotheses into conclusions — if the session ended with an unconfirmed theory, say "hypothesized X" or "investigated X; unresolved" rather than "identified X" or "found X."
 - Label each session with its project name
 - Group output by date
 
@@ -60,8 +61,8 @@ Combine all subagent summaries into a single chronological journal. Present to t
 ## Notes
 
 - The preprocessing script is critical for staying within context limits. Raw JSONL transcripts contain massive tool outputs that would overwhelm any context window.
-- Haiku is sufficient for summarization, but the prompt needs to be specific about what to keep vs drop — without guidance it over-compresses and loses proper nouns (tool names, ticket refs). The bullet instructions above are load-bearing.
-- Aim for ~5 parallel subagents max to balance speed vs overhead.
+- Sonnet is the recommended model for summarization. Haiku over-compresses and promotes hypotheses into conclusions; Opus is marginally better but ~2x slower for negligible quality gain.
+- Scale agent count to keep ~5-6 transcripts per agent. For a full month (~100 sessions), that's ~16-20 agents.
 - Skip the current session's transcript (it will be incomplete/in-progress).
 - The user's default shell may be fish. Use `xargs` pipelines rather than bash variable expansion to pass file lists, and avoid bash-specific syntax like `[[ ]]` in inline commands.
 
