@@ -30,23 +30,13 @@ CLI.
 3. **Allowlist the ephemeral state directory.** Some skills persist run
    state, venvs, or other reusable caches under `~/.local/claude-state/`
    (see the "Ephemeral state and caches" section in `AGENTS.md`). To avoid
-   permission prompts every time a skill reads or writes there, either run
-   `/permissions` inside Claude Code and add:
+   permission prompts every time a skill reads or writes there, add these
+   to the `permissions.allow` list in `~/.claude/settings.json` (or just
+   ask Claude to add them with its `Edit` tool):
 
    ```
-   Read(/Users/<you>/.local/claude-state/**)
-   Edit(/Users/<you>/.local/claude-state/**)
-   ```
-
-   …or edit `~/.claude/settings.json` directly:
-
-   ```json
-   "permissions": {
-     "allow": [
-       "Read(/Users/<you>/.local/claude-state/**)",
-       "Edit(/Users/<you>/.local/claude-state/**)"
-     ]
-   }
+   Read(~/.local/claude-state/**)
+   Edit(~/.local/claude-state/**)
    ```
 
 4. **Extend transcript retention.** Claude Code defaults to deleting transcripts
