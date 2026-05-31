@@ -11,7 +11,7 @@ Generate a day-by-day work journal from Claude Code conversation history.
 
 ### 1. Preprocess transcripts
 
-Create a timestamped output directory: `/tmp/claude-journal/<YYYYMMDD-HHMMSS>/`.
+Create a timestamped output directory: `/tmp/claude/journal/<YYYYMMDD-HHMMSS>/`.
 
 Run the bundled preprocessing script @journal_slim_transcripts.py :
 

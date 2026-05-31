@@ -61,6 +61,13 @@ changes that would remove or modify existing comments:
   still correct and relevant
 - Only TODO/FIXME comments tied to completed work are candidates for removal
 
+### Questions vs. directives
+
+Don't treat a question as a request to act. "Maybe we should rename X?" is
+asking for discussion, not commanding a rename. Investigative tool use (grep,
+read) to inform the answer is fine — but if the user seems uncertain or
+exploratory, don't plow ahead with changes anyway.
+
 ### Reporting findings from code investigation
 
 When summarizing what you found in code — especially when searching through
@@ -129,4 +136,6 @@ human-inspectable, and the user can delete a subtree to force a skill back
 to a clean slate.
 
 Truly throwaway artifacts (one-shot downloads, large unpacked archives,
-anything you wouldn't mind losing on reboot) still belong under `/tmp/`.
+anything you wouldn't mind losing on reboot) belong under `/tmp/claude/`.
+Custom skills that produce multiple files per run may want their own
+subdirectory (e.g. `/tmp/claude/<skill-name>/`).

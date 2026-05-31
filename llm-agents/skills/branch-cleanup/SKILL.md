@@ -80,19 +80,13 @@ diff <(git diff $MB..<local_tip>) <(git diff <squash>^..<squash>)
 
 Using `git diff` on both sides keeps the comparison symmetric — neither side carries a commit-message preamble, so the only differences should be blob hashes and hunk-header line numbers.
 
-**Sandbox prompt fatigue (open question).** If your environment runs commands through a sandbox that prompts for approval per subshell, verifying many branches in a row with `<(...)` process substitution can get cumbersome. There's no known-good fix yet — `mktemp -d` paths under `/tmp` may not dodge prompts either, since the sandbox likely treats `/tmp` writes the same regardless of who created the path. Options worth trying, in order of plausibility — ask the user which they'd like to attempt before applying:
-
-- Stick with `<(...)` and accept the prompts. Fine for a handful of branches.
-- Try `mktemp -d` and `diff` once, accepting that the sandbox may still prompt.
-- Try a ramdisk if the system has one set up (very uncertain; platform-dependent).
-
-For the `mktemp` form:
+**Avoiding process substitution prompts.** `<(...)` triggers per-subshell approval in sandboxed environments. Use `/tmp/claude/branch-cleanup/` instead — it's pre-allowed by the permission glob:
 
 ```bash
-SCRATCH=$(mktemp -d)
-git show <local_tip>  > $SCRATCH/local.patch
-git show <landed>     > $SCRATCH/landed.patch
-diff $SCRATCH/local.patch $SCRATCH/landed.patch
+mkdir -p /tmp/claude/branch-cleanup
+git show <local_tip>  > /tmp/claude/branch-cleanup/local.patch
+git show <landed>     > /tmp/claude/branch-cleanup/landed.patch
+diff /tmp/claude/branch-cleanup/local.patch /tmp/claude/branch-cleanup/landed.patch
 ```
 
 ### 3. Present groups and checkpoint

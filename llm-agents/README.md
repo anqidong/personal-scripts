@@ -27,16 +27,17 @@ CLI.
    directory, `ln -sf` will create the link *inside* it instead of replacing
    it.
 
-3. **Allowlist the ephemeral state directory.** Some skills persist run
-   state, venvs, or other reusable caches under `~/.local/claude-state/`
-   (see the "Ephemeral state and caches" section in `AGENTS.md`). To avoid
-   permission prompts every time a skill reads or writes there, add these
-   to the `permissions.allow` list in `~/.claude/settings.json` (or just
-   ask Claude to add them with its `Edit` tool):
+3. **Allowlist ephemeral directories.** The instructions configured here
+   direct Claude to use `~/.local/claude-state/` for persistent scratch
+   and `/tmp/claude/` for throwaway artifacts (see the "Ephemeral state
+   and caches" section in `AGENTS.md`). To avoid permission prompts, add
+   these to the `permissions.allow` list in `~/.claude/settings.json`:
 
    ```
    Read(~/.local/claude-state/**)
    Edit(~/.local/claude-state/**)
+   Read(//tmp/claude/**)
+   Edit(//tmp/claude/**)
    ```
 
 4. **Extend transcript retention.** Claude Code defaults to deleting transcripts
