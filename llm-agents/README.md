@@ -16,7 +16,21 @@ CLI.
    dialog the first time it sees external imports. Additional AGENTS.md files
    from sibling repos can be imported the same way if needed.
 
-2. **Symlink the skills folder** into `~/.claude/` so every skill here is
+1. **Wire global memory recall.** Claude Code auto-loads a project's memory but
+   *not* the global store at `~/.claude/memory/`. To pull the global memory
+   index into every session, import it from `~/.claude/CLAUDE.md` with the same
+   `@`-syntax:
+
+   ```markdown
+   @~/.claude/memory/MEMORY.md
+   ```
+
+   Only the index (`MEMORY.md`) loads; the individual memory files it links to
+   are read on demand. Without this line, anything saved to global scope is
+   written but never recalled. See the "Memory" section in `AGENTS.md` for the
+   global-vs-project saving convention.
+
+1. **Symlink the skills folder** into `~/.claude/` so every skill here is
    available as a top-level slash command, and new ones appear automatically:
 
    ```bash
@@ -27,7 +41,7 @@ CLI.
    directory, `ln -sf` will create the link *inside* it instead of replacing
    it.
 
-3. **Allowlist ephemeral directories.** The instructions configured here
+1. **Allowlist ephemeral directories.** The instructions configured here
    direct Claude to use `~/.local/claude-state/` for persistent scratch
    and `/tmp/claude/` for throwaway artifacts (see the "Ephemeral state
    and caches" section in `AGENTS.md`). To avoid permission prompts, add
@@ -40,7 +54,7 @@ CLI.
    Edit(//tmp/claude/**)
    ```
 
-4. **Extend transcript retention.** Claude Code defaults to deleting transcripts
+1. **Extend transcript retention.** Claude Code defaults to deleting transcripts
    after 30 days. To keep them indefinitely, set `cleanupPeriodDays` in
    `~/.claude/settings.json`:
 
@@ -71,7 +85,7 @@ CLI.
    Always refer to these files for tone, guardrails, commit messages, and internal tooling guidelines.
    ```
 
-2. **Symlink the skills folder** into `~/.gemini/` so every skill here is
+1. **Symlink the skills folder** into `~/.gemini/` so every skill here is
    available, and new ones appear automatically:
 
    ```bash

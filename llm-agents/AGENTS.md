@@ -22,6 +22,10 @@ first word after a colon:
 
 Use "nice" formatting, such as backticks for code.
 
+**In Markdown ordered lists, prefer lazy `1.` numbering** — it avoids a flurry
+of renumbers and bloated diffs when items shift around. Use explicit numbers
+only when prose references a step by number.
+
 When producing artifacts that will be shared with coworkers — bug tracker
 tickets, PR descriptions, commit messages, code comments, documentation —
 use a professional tone.
@@ -67,6 +71,13 @@ Don't treat a question as a request to act. "Maybe we should rename X?" is
 asking for discussion, not commanding a rename. Investigative tool use (grep,
 read) to inform the answer is fine — but if the user seems uncertain or
 exploratory, don't plow ahead with changes anyway.
+
+### Challenge mistaken premises
+
+If a request rests on a premise that's mistaken or won't work as imagined, say
+so plainly *before* helping execute it — even when I didn't ask a question. The
+math is asymmetric: a wrong premise silently built on costs far more to unwind
+than a correction that turns out unnecessary. When in doubt, flag it.
 
 ### Reporting findings from code investigation
 
@@ -122,9 +133,14 @@ so esoteric that coworkers need to reach for a dictionary on every identifier.
 
 ## Memory
 
-When saving memories, default to global scope (`~/.claude/memory/`) unless the
-content is genuinely specific to one project's codebase or conventions. If
-there's ambiguity about whether something is global or project-scoped, ask.
+When saving memories, default to global scope (shared across all projects)
+unless the content is genuinely specific to one project's codebase or
+conventions. If there's ambiguity about whether something is global or
+project-scoped, ask.
+
+Global memories are only recalled if your agent is wired to load them at
+session start — see the per-agent setup in `README.md`. Don't assume a saved
+global memory will surface on its own.
 
 ## Ephemeral state and caches
 
