@@ -31,3 +31,12 @@ else
   abbr -a la ls -AF
   abbr -a l ls -CF
 end
+
+# prompt before clobbering an existing file
+abbr -a cp cp -i
+abbr -a mv mv -i
+abbr -a ln ln -i
+
+# refuse to overwrite on `>` / `2>` redirects (fish's noclobber operator)
+abbr -a --position anywhere -- '>' '>?'
+abbr -a --position anywhere -- '2>' '2>?'

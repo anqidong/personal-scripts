@@ -139,6 +139,11 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# prompt before clobbering an existing file
+alias cp='cp -i'
+alias mv='mv -i'
+alias ln='ln -i'
+
 if [ -n "$BASH_VERSION" ]; then
   # Alias definitions.
   # You may want to put all your additions into a separate file like
