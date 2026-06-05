@@ -62,6 +62,22 @@ CLI.
    "cleanupPeriodDays": 3650
    ```
 
+5. **Suppress AI co-author trailers.** Unless a project explicitly overrides
+   this, don't ship `Co-Authored-By: Claude ...` on commits or PR
+   descriptions. Set both attribution strings to empty in
+   `~/.claude/settings.json`:
+
+   ```json
+   "attribution": {
+     "commit": "",
+     "pr": ""
+   }
+   ```
+
+   Empty string is the documented way to hide attribution. (The older
+   `"includeCoAuthoredBy": false` boolean still works but is deprecated in
+   favor of the structured field.)
+
 ## Setup for Gemini CLI
 
 1. **Reference `AGENTS.md` from your global `GEMINI.md`**:

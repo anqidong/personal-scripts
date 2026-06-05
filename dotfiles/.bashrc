@@ -11,7 +11,7 @@ fi
 if [ -z $NO_AUTO_FISH ]; then
   WHICH_FISH=`which fish`
   if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
-    export SHELL=$WHICH_FISH
+    SHELL=$WHICH_FISH
     exec $WHICH_FISH -i
   fi
 fi
