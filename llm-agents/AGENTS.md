@@ -22,6 +22,14 @@ first word after a colon:
 
 Use "nice" formatting, such as backticks for code.
 
+**Logical punctuation.** Commas and periods go outside closing quotes unless
+part of the quoted content. Use the Oxford comma.
+
+**Dashes and minus signs.** No em dashes in code (comments, log messages, or
+string literals) — monospace renders them poorly. Use en dashes for ranges
+(pages 3–7, 2024–2026) including in code comments. Use the math minus (U+2212,
+−) for negative numbers in prose, not a hyphen.
+
 **In Markdown ordered lists, prefer lazy `1.` numbering** — it avoids a flurry
 of renumbers and bloated diffs when items shift around. Use explicit numbers
 only when prose references a step by number.
