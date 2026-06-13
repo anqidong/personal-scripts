@@ -39,6 +39,7 @@ Group transcripts by date from the manifest. Spawn parallel subagents (use `sonn
 - Produce 2-4 bullet points per session (starting point: under 25 words each). This should be dynamic based on the length of the session: short summary for simple sessions; more bullet points for long or complex or wide-ranging sessions.
 - **Name identifying details**: keep tool/framework names, bug tracker numbers, PR numbers. Drop commit hashes, file paths, and implementation details — this is a work summary, not a changelog.
 - **Distinguish outcomes from investigations**: use "investigated" or "explored" for sessions that end without resolution. Do not promote hypotheses into conclusions — if the session ended with an unconfirmed theory, say "hypothesized X" or "investigated X; unresolved" rather than "identified X" or "found X."
+- **Prioritize deliverables over tangents**: a session's bullets should cover the main arc of work (bugs diagnosed, code landed, designs written, PRs reviewed). Incidental asides — naming bikesheds, tooling detours unrelated to the project, typos noticed in passing, minor meta-process observations — should be omitted unless they *were* the session's primary purpose. A 2-message tangent within a 100-message session does not deserve equal billing with the substantive work. When in doubt, ask: "would this matter in a weekly status update?" If not, cut it.
 - Label each session with its project name
 - Group output by date
 
