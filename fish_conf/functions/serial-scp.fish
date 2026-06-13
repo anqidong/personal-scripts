@@ -1,22 +1,19 @@
 function serial-scp --argument-names server1 server2_spec file_path
-  if test (count $argv) -ne 3
-    echo "Wrong number of arguments"
-    return -2
-  end
+    # You probably want to just run this directly:
+    #   scp -J server1 file_path server2_spec
 
-  if not set -f temp_path (ssh -t $server1 "mktemp -d")
-    echo "Could not set up temporary path"
-    return -1
-  end
-  # For some reason this has a trailing carriage return otherwise
-  set temp_path (string trim $temp_path)
+    if test (count $argv) -ne 3
+        echo "Wrong number of arguments"
+        echo ""
+        echo "  Or just run directly:"
+        echo "    scp -J SERVER1 FILE_PATH SERVER2_SPEC"
+        return -2
+    end
 
-  set -f file_name (path basename $file_path)
+    read -P "Run: scp -J $server1 $file_path $server2_spec? [y/N] " -n 1 answer
+    if test "$answer" != y
+        return 0
+    end
 
-  set fish_trace 1
-
-  scp $file_path $server1":"$temp_path &&
-    ssh -t $server1 "scp $temp_path/$file_name $server2_spec"
-
-  ssh -t $server1 "rm -rf $temp_path"
+    scp -J $server1 $file_path $server2_spec
 end
