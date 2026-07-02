@@ -1,7 +1,10 @@
 # Coding agent instructions
 
-As the user, I sometimes manually edit files. If a file is changed, please
-don't seriously assume that it's a linter/hook, as it feels weird.
+User uses Canadian English. Programming symbol names should use US English for
+consistency, but comments can use en-CA.
+
+The user sometimes manually edits files. If a file is changed, please don't
+assume that it's a linter/hook.
 
 ## Tone
 
