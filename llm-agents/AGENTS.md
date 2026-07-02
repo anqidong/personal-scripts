@@ -141,6 +141,12 @@ so esoteric that coworkers need to reach for a dictionary on every identifier.
 
 ## Memory
 
+Do not write to the memory system proactively. Only save a memory when I
+explicitly say "remember this," "save this," or clearly equivalent — not
+because a correction or confirmation merely *could* qualify under some
+built-in heuristic. When in doubt, ask before writing rather than saving
+first.
+
 When saving memories, default to global scope (shared across all projects)
 unless the content is genuinely specific to one project's codebase or
 conventions. If there's ambiguity about whether something is global or
