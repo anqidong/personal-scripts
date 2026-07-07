@@ -11,7 +11,13 @@ detach = checkout --detach HEAD
 
 fetchp = fetch --prune
 prune-remote = remote prune  # requires a remote name argument
-# Does a comparision relative to the current HEAD
+
+# Point the local tracking ref (refs/remotes/<remote>/HEAD) at whichever branch
+# the remote currently reports as its default. Because git never updates this on
+# its own (not even on fetch), it goes stale when the remote's default changes.
+sync-head = "!f() { git remote set-head \"$1\" --auto; }; f"  # requires a remote name argument
+
+# Does a comparison relative to the current HEAD
 delete-merged = "!git for-each-ref --format=\"%(refname:short)\" refs/heads | xargs git branch -d"
 
 resign = commit --am --no-edit -S
