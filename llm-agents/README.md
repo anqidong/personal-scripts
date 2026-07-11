@@ -78,6 +78,15 @@ CLI.
    `"includeCoAuthoredBy": false` boolean still works but is deprecated in
    favor of the structured field.)
 
+1. **Status line.** Add to `~/.claude/settings.json`:
+
+   ```json
+   "statusLine": {
+     "type": "command",
+     "command": "bash ~/git/personal-scripts/llm-agents/statusline-command.sh"
+   }
+   ```
+
 ## Setup for Gemini CLI
 
 1. **Reference `AGENTS.md` from your global `GEMINI.md`**:
