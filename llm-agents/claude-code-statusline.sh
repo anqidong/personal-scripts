@@ -15,7 +15,30 @@ RST='\033[0m'
 
 # --- Left side: CWD + git branch ---
 
-cwd="${dir/#$HOME/~}"
+# Abbreviate leading path components to 1 char, keep the last 5 in full.
+# Mirrors fish's `prompt_pwd -d 3 -D 5`.
+pretty_path() {
+  local path="${1/#$HOME/~}"
+  IFS='/' read -ra parts <<< "$path"
+  local total=${#parts[@]}
+  local keep=5
+  local result="" i=0
+  for part in "${parts[@]}"; do
+    if [ -z "$part" ]; then
+      i=$((i + 1))
+      continue
+    fi
+    if [ "$((total - i))" -gt "$keep" ]; then
+      result="$result/${part:0:1}"
+    else
+      result="$result/$part"
+    fi
+    i=$((i + 1))
+  done
+  echo "${result/#\/\~/~}"
+}
+
+cwd=$(pretty_path "$dir")
 
 left=$(printf '\033[38;5;30m%s%s' "$cwd" "$RST")
 

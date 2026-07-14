@@ -83,7 +83,7 @@ CLI.
    ```json
    "statusLine": {
      "type": "command",
-     "command": "bash ~/git/personal-scripts/llm-agents/statusline-command.sh"
+     "command": "bash ~/git/personal-scripts/llm-agents/claude-code-statusline.sh"
    }
    ```
 
