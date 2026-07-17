@@ -40,7 +40,7 @@ Group transcripts by date from the manifest. Spawn parallel subagents (use `sonn
 - **Name identifying details**: keep tool/framework names, bug tracker numbers, PR numbers. Drop commit hashes, file paths, and implementation details — this is a work summary, not a changelog.
 - **Distinguish outcomes from investigations**: use "investigated" or "explored" for sessions that end without resolution. Do not promote hypotheses into conclusions — if the session ended with an unconfirmed theory, say "hypothesized X" or "investigated X; unresolved" rather than "identified X" or "found X."
 - **Prioritize deliverables over tangents**: a session's bullets should cover the main arc of work (bugs diagnosed, code landed, designs written, PRs reviewed). Incidental asides — naming bikesheds, tooling detours unrelated to the project, typos noticed in passing, minor meta-process observations — should be omitted unless they *were* the session's primary purpose. A 2-message tangent within a 100-message session does not deserve equal billing with the substantive work. When in doubt, ask: "would this matter in a weekly status update?" If not, cut it.
-- Label each session with its project name
+- **One heading per conversation**: each transcript file is one conversation (or one day-slice of a conversation). Do NOT merge multiple sessions together under a shared project heading. Each session gets its own `###` heading with the project name and a short descriptive subtitle derived from the session's content. This preserves conversation boundaries so the reader can tell what happened in each sitting.
 - Group output by date
 
 ### 3. Collate and present
@@ -49,11 +49,11 @@ Combine all subagent summaries into a single chronological journal. Present to t
 
 ```
 ## YYYY-MM-DD (Day of Week)
-### project-name
+### project-name — short descriptive subtitle
 - bullet
 - bullet
 
-### project-name
+### project-name — short descriptive subtitle
 - bullet
 ```
 
