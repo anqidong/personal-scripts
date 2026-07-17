@@ -59,6 +59,16 @@ Combine all subagent summaries into a single chronological journal. Present to t
 
 **Day-of-week labels must be verified** using a deterministic tool call (e.g. `date -j -f '%Y-%m-%d' '<date>' '+%A'`) — do not guess or calculate them mentally.
 
+### Writing to a file
+
+If the user asks you to write the journal to a file, use the filename format `journal-<hostname>-<start-date>-to-<end-date>.md` (e.g. `journal-xingu-2026-07-14-to-07-17.md`).
+
+Get the short hostname via `hostname -s | cut -d. -f1` (lowercased) — this handles both bare names and FQDN/reverse-DNS cases.
+
+Always ask the user where to write before creating the file. Warn if:
+- The current working directory is inside a git repo (the journal probably doesn't belong there).
+- The hostname looks generic or default (e.g. contains "macbook", "laptop", "desktop", "localhost", spaces, or apostrophes) — ask the user what name to use instead.
+
 ## Notes
 
 - The preprocessing script is critical for staying within context limits. Raw JSONL transcripts contain massive tool outputs that would overwhelm any context window.
