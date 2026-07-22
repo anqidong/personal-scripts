@@ -67,6 +67,10 @@ only when literally discussing honesty or truthfulness.
 **When uncertain about an API or internal behavior, ask rather than guess.**
 Hallucinated API calls are worse than asking a clarifying question.
 
+**Use blank lines to separate logical "paragraphs" within a function** when
+the function is not short. At minimum, separate guard/precondition lines from
+the body that follows.
+
 **Do not remove comments without explicit justification.** When planning
 changes that would remove or modify existing comments:
 - In plan mode, explicitly describe which comments would be removed and why

@@ -6,6 +6,7 @@ Generate a day-by-day work journal from Claude Code conversation history.
 
 - **since** (optional): Start date in YYYY-MM-DD format. Default: start of the current week (Monday).
 - **project** (optional): Filter to a specific project directory substring.
+- **no-btw** (optional): When set, skips the `/btw` extraction step. By default, orphaned `/btw` messages are extracted and triaged for inclusion.
 
 ## Steps
 
@@ -31,7 +32,24 @@ find ~/.claude/projects -name "*.jsonl" -not -path "*/subagents/*" -print0 \
 
 The script splits multi-day sessions at midnight boundaries, so a session that started Tuesday evening and continued Wednesday gets two manifest entries. Output lands in the timestamped directory with a `_manifest.json` index.
 
-### 2. Fan out subagents for summarization
+### 2. Extract orphaned /btw messages
+
+Unless **no-btw** is set, run the bundled extraction script @extract_btw.py :
+
+```bash
+python3 <skill-dir>/extract_btw.py --since <since-date>
+```
+
+If there are results, spawn a single Sonnet subagent to triage them. The agent receives the full JSON lines output and should:
+
+- Classify each entry as **substantive** (a real question, observation, or insight worth journalling) or **throwaway** (a one-liner reaction, joke, or trivial aside).
+- For substantive entries, produce a one-line summary preserving the core question or insight.
+- Group output by date (derive from the timestamp field), with session ID noted.
+- Output as Markdown bullets, one per substantive entry, grouped by date with session ID noted. Throwaway entries should be silently dropped — don't list them.
+
+If no orphaned entries exist, or all are classified as throwaway, skip this step silently.
+
+### 3. Fan out subagents for summarization
 
 Group transcripts by date from the manifest. Spawn parallel subagents (use `sonnet` model), targeting ~5-6 transcripts per agent (scale agent count up as needed to cover all sessions). Each subagent should:
 
@@ -43,9 +61,9 @@ Group transcripts by date from the manifest. Spawn parallel subagents (use `sonn
 - **One heading per conversation**: each transcript file is one conversation (or one day-slice of a conversation). Do NOT merge multiple sessions together under a shared project heading. Each session gets its own `###` heading with the project name and a short descriptive subtitle derived from the session's content. This preserves conversation boundaries so the reader can tell what happened in each sitting.
 - Group output by date
 
-### 3. Collate and present
+### 4. Collate and present
 
-Combine all subagent summaries into a single chronological journal. Present to the user with this format:
+Combine all subagent summaries into a single chronological journal. If the `/btw` triage produced substantive entries, append them under each relevant day as a "Side threads" subsection:
 
 ```
 ## YYYY-MM-DD (Day of Week)
@@ -55,6 +73,9 @@ Combine all subagent summaries into a single chronological journal. Present to t
 
 ### project-name — short descriptive subtitle
 - bullet
+
+#### Side threads
+- [btw] summary of orphaned question/insight
 ```
 
 **Day-of-week labels must be verified** using a deterministic tool call (e.g. `date -j -f '%Y-%m-%d' '<date>' '+%A'`) — do not guess or calculate them mentally.
