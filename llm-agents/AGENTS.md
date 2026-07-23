@@ -62,6 +62,17 @@ only when literally discussing honesty or truthfulness.
 - Always use `git stash apply` instead of `git stash pop`. Only drop a stash
   manually with `git stash drop` after the user allows it.
 
+### Working directory and git commands
+
+Before running a command whose result depends on the current directory —
+`git status`, `git log`, or anything repo-relative — do a quick `pwd` (or
+`git rev-parse --show-toplevel`) check when the location isn't obvious. The
+working directory generally persists across Bash calls, though the harness may
+reset it to the workspace root if a command leaves that root, so a light check
+is enough to catch any drift. Don't overcorrect: reflexively prefixing every
+command with `cd X && …` or `git -C <path>` is unnecessary noise — establish
+the directory once, then run plain commands.
+
 ### Code modifications
 
 **When uncertain about an API or internal behavior, ask rather than guess.**
