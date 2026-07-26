@@ -15,3 +15,7 @@ rebase = true
 
 [push]
 useForceIfIncludes = true
+
+[submodule]
+recurse = true
+fetchJobs = 0  # auto-parallelism

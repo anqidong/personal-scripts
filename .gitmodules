@@ -2,3 +2,4 @@
 	path = llm-agents
 	url = git@github.com:anqidong/llm-agents.git
 	branch = main
+	# ignore = all  ; suppresses pin-drift noise in git status/diff

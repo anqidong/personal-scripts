@@ -37,6 +37,14 @@ ama = commit --am -a
 
 raw-commit = log --format=%B -n 1  # optional commit hash argument
 
+# Submodule aliases
+sm-sink = submodule update --init --recursive  # git's default: sync to committed hashes
+sm-swim = submodule update --remote --rebase  # advance to branch tip regardless of committed hash
+
+# Clone variants
+panto = clone --recurse-submodules
+clone-arid = clone --depth=10 --single-branch --recurse-submodules --shallow-submodules
+
 # For common typos
 pulll = pull
 commi = commit

@@ -5,6 +5,8 @@ abbr -a --position anywhere grei grep -Fin -C 5
 abbr -a ggrew git grep -Finw -C 5
 abbr -a --position anywhere grew grep -Finw -C 5
 
+abbr -a gclone git clone --recurse-submodules
+
 # Helpers for `git grep` on projects with Xcode stuff
 abbr -a --position anywhere -- xxc -- \
   "':!*.pbxproj'" "':!*.plist'" "':!*.xcconfig'" "':!*.xcodeproj/*'"
@@ -31,6 +33,7 @@ else
   abbr -a la ls -AF
   abbr -a l ls -CF
 end
+
 
 # prompt before clobbering an existing file
 abbr -a cp cp -i
