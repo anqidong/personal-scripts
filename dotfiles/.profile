@@ -38,7 +38,7 @@ case $(uname) in
     export BASH_SILENCE_DEPRECATION_WARNING=1
 
     # For some reason, some Mac terminals don't show up as supporting colours
-    export COLORTERM=1
+    export COLORTERM=truecolor
     ;;
   "Linux"*)
     export GTK_IM_MODULE=ibus
