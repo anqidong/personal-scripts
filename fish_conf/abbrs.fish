@@ -25,9 +25,9 @@ abbr -a caf caffeinate
 # ls helpers
 if command -q eza
   abbr -a lgit eza --git -A
-  abbr -a ll eza -AgHlF
-  abbr -a la eza -AF
-  abbr -a l eza -GF
+  abbr -a ll eza -AgHl --classify=auto
+  abbr -a la eza -A --classify=auto
+  abbr -a l eza -G --classify=auto
 else
   abbr -a ll ls -AClF
   abbr -a la ls -AF
