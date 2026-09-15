@@ -40,6 +40,12 @@ autosq = rebase -i --autosquash  # requires a commit hash argument
 absorbs = absorb -r --base  # requires a commit hash argument
 ama = commit --am -a
 
+# Targeted cherry-pick: replay only <commit>'s change to the given path(s)
+# onto the working tree, with a 3-way merge fallback when it won't apply
+# cleanly. Unlike `checkout <commit> -- path`, this applies the commit's
+# delta rather than overwriting with the whole file at that commit.
+pluck-file = "!f() { rev=\"$1\"; shift; git show \"$rev\" -- \"$@\" | git apply --3way; }; f"
+
 raw-commit = log --format=%B -n 1  # optional commit hash argument
 
 # Submodule aliases
