@@ -9,6 +9,10 @@ merged = branch --merged  # optional branch argument
 retrack = "!f() { git branch --force \"$1\" \"origin/$1\"; }; f"
 detach = checkout --detach HEAD
 
+# Delete the current branch but stay on its commit, detached. Complements
+# `detach`. Uses -d, so it refuses if the branch has commits its upstream lacks.
+yeet-branch = "!f() { b=$(git branch --show-current); [ -n \"${b}\" ] || { echo 'Not on a branch' >&2; return 1; }; git detach && git branch -d \"${b}\"; }; f"
+
 # Clears the mismatched upstream (e.g. after a branch rename), so a plain
 # `push` auto-creates a same-named branch on the remote instead of erroring
 # (requires push.autoSetupRemote, set globally in main.gitconfig)
