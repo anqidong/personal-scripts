@@ -56,6 +56,17 @@ raw-commit = log --format=%B -n 1  # optional commit hash argument
 sm-sink = submodule update --init --recursive  # git's default: sync to committed hashes
 sm-swim = submodule update --remote --rebase  # advance to branch tip regardless of committed hash
 
+# Log views, using the formats in [pretty] below. The date style lives here
+# because a format's %ad/%cd always follow the date setting. It's set via -c
+# rather than --date, because an explicit --date turns -g selectors from
+# HEAD@{n} into HEAD@{<date>}.
+twoline = -c 'log.date=format:%Y-%m-%d %H:%M %z' log --pretty=twoline
+dossier = -c 'log.date=format:%Y-%m-%d %H:%M %z' log --pretty=dossier --stat
+exhibit = -c 'log.date=format:%Y-%m-%d %H:%M %z' show --pretty=dossier --stat -p
+
+# Commits reachable only from the reflog, such as pre-rebase versions
+strays = log --oneline --reflog --not --branches --tags --remotes
+
 # Clone variants
 panto = clone --recurse-submodules
 clone-arid = clone --depth=10 --single-branch --recurse-submodules --shallow-submodules
@@ -66,3 +77,12 @@ commi = commit
 statu = status
 lo = log
 sho = show
+
+[pretty]
+
+# %gd (the HEAD@{n} selector) only expands during a reflog walk, such as with -g
+twoline = tformat:%C(yellow)%h%C(reset)%C(auto)%d% gd%C(reset) %s%n└─ %C(bold blue)%an%C(reset), %C(green)%ad%C(reset) (%ar) · committed by %C(bold blue)%cn%C(reset), %C(green)%cd%C(reset)
+
+# Like fuller, but each identity shares a line with its date. Uses format:
+# rather than tformat: because %B already ends with a newline.
+dossier = format:%C(yellow)commit %H%C(reset)%C(auto)%d% gd%C(reset)%nAuthor: %an <%ae>, %ad (%ar)%nCommit: %cn <%ce>, %cd (%cr)%n%n%w(0,4,4)%B
