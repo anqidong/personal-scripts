@@ -8,6 +8,12 @@ if [ -n "${INTELLIJ_ENVIRONMENT_READER}" ]; then
     return
 fi
 
+# A caller that passed a command with -c (such as VS Code reading the login
+# PATH) wants that command run, not an interactive setup.
+if [ -n "$ZSH_EXECUTION_STRING" ] || [ -n "$BASH_EXECUTION_STRING" ]; then
+    return
+fi
+
 if [ -z $NO_AUTO_FISH ]; then
   WHICH_FISH=`which fish`
   if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
