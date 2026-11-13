@@ -10,19 +10,19 @@ fi
 
 # A caller that passed a command with -c (such as VS Code reading the login
 # PATH) wants that command run, not an interactive setup.
-if [ -n "$ZSH_EXECUTION_STRING" ] || [ -n "$BASH_EXECUTION_STRING" ]; then
+if [ -n "${ZSH_EXECUTION_STRING}" ] || [ -n "${BASH_EXECUTION_STRING}" ]; then
     return
 fi
 
 if [ -z "${NO_AUTO_FISH}" ]; then
-  WHICH_FISH=`which fish`
-  if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
-    SHELL=$WHICH_FISH
-    exec $WHICH_FISH -i
+  WHICH_FISH=$(which fish)
+  if [[ -x ${WHICH_FISH} ]] && ! [[ ${SHELL} -ef ${WHICH_FISH} ]]; then
+    SHELL=${WHICH_FISH}
+    exec ${WHICH_FISH} -i
   fi
 fi
 
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "${BASH_VERSION}" ]; then
   # don't put duplicate lines or lines starting with space in the history.
   # See bash(1) for more options
   HISTCONTROL=ignoreboth
@@ -40,7 +40,7 @@ if [ -n "$BASH_VERSION" ]; then
 fi  # bash-only
 
 
-if [ -n "$ZSH_VERSION" ]; then
+if [ -n "${ZSH_VERSION}" ]; then
   # Don't add to history if the command starts with a space, and overwrite
   # duplicates.
   setopt HIST_IGNORE_SPACE
@@ -61,7 +61,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
+case "${TERM}" in
     xterm-color|xterm-256color) color_prompt=yes;;
 esac
 
@@ -76,7 +76,7 @@ _color_white="\[\e[00m\]"
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
-if [ -n "$force_color_prompt" ]; then
+if [ -n "${force_color_prompt}" ]; then
   if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
       # We have color support; assume it's compliant with Ecma-48
       # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
@@ -88,22 +88,22 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 set_bash_prompt() {
-  if [ $SHLVL -ge 2 ]; then
+  if [ "${SHLVL}" -ge 2 ]; then
     subshell_str='⑂'
   else
     subshell_str=' '
   fi
 
-  if [[ "$VIRTUAL_ENV" != "" ]]; then
-    virtualenv_str=" ($(basename "$VIRTUAL_ENV"))"
+  if [[ "${VIRTUAL_ENV}" != "" ]]; then
+    virtualenv_str=" ($(basename "${VIRTUAL_ENV}"))"
   else
     virtualenv_str=$(python3 -c 'import sys; sys.stdout.write(" <virtualenv>" if hasattr(sys, "real_prefix") else "")')
   fi
 
-  if [ "$color_prompt" = yes ]; then
+  if [ "${color_prompt}" = yes ]; then
       PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w'
       PS1+=$(_color_str 54)
-      PS1+=$virtualenv_str
+      PS1+=${virtualenv_str}
       PS1+="${_color_white}\n${subshell_str}> "
       # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n'
   else
@@ -111,9 +111,9 @@ set_bash_prompt() {
   fi
 
   # If this is an xterm set the title to user@host:dir
-  case "$TERM" in
+  case "${TERM}" in
   xterm*|rxvt*)
-      PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+      PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
       ;;
   *)
       ;;
@@ -150,7 +150,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
 
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "${BASH_VERSION}" ]; then
   # Alias definitions.
   # You may want to put all your additions into a separate file like
   # ~/.bash_aliases, instead of adding them here directly.

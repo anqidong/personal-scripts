@@ -9,20 +9,20 @@
 #umask 022
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
+if [ -d "${HOME}/bin" ] ; then
+    export PATH="${HOME}/bin:${PATH}"
 fi
 
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+if [ -d "${HOME}/.local/bin" ] ; then
+    export PATH="${HOME}/.local/bin:${PATH}"
 fi
 
-if [ -d "$HOME/git/personal-scripts/bin" ] ; then
-    export PATH="$HOME/git/personal-scripts/bin:$PATH"
+if [ -d "${HOME}/git/personal-scripts/bin" ] ; then
+    export PATH="${HOME}/git/personal-scripts/bin:${PATH}"
 fi
 
-if [ -d "$HOME/git/work-scripts/bin" ] ; then
-    export PATH="$HOME/git/work-scripts/bin:$PATH"
+if [ -d "${HOME}/git/work-scripts/bin" ] ; then
+    export PATH="${HOME}/git/work-scripts/bin:${PATH}"
 fi
 
 export EDITOR=vim
@@ -56,11 +56,11 @@ fi
 export _PERSONAL_PROFILE_ACTIVE=42
 
 # If running bash / zsh:
-if [ -n "$BASH_VERSION" ] || [ -n "$ZSH_VERSION" ]; then
+if [ -n "${BASH_VERSION}" ] || [ -n "${ZSH_VERSION}" ]; then
     # Include .bashrc if it exists. Do this after everything else, because the
     # .bashrc file may eventually exec into fish, and we don't want to lose all
     # of the stuff above, should that happen.
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
+    if [ -f "${HOME}/.bashrc" ]; then
+        . "${HOME}/.bashrc"
     fi
 fi

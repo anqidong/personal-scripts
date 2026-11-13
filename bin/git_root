@@ -2,4 +2,4 @@
 
 # Taken from https://stackoverflow.com/questions/957928
 
-r=$(git rev-parse --git-dir) && r=$(cd "$r" && pwd)/ && echo "${r%%/.git/*}"
+r=$(git rev-parse --git-dir) && r=$(cd "${r}" && pwd)/ && echo "${r%%/.git/*}"
