@@ -14,7 +14,7 @@ if [ -n "$ZSH_EXECUTION_STRING" ] || [ -n "$BASH_EXECUTION_STRING" ]; then
     return
 fi
 
-if [ -z $NO_AUTO_FISH ]; then
+if [ -z "${NO_AUTO_FISH}" ]; then
   WHICH_FISH=`which fish`
   if [[ -x $WHICH_FISH ]] && ! [[ $SHELL -ef $WHICH_FISH ]]; then
     SHELL=$WHICH_FISH
@@ -191,10 +191,10 @@ run_and_notify() {
   eval "$*"
 
   set +m
-  if [$# -gt 3]; then
+  if [ "$#" -gt 3 ]; then
     zenity --notification --text "Finished running $1 $2 $3 (truncated…)" >/dev/null 2>/dev/null & disown;
   else
-    zenity --notification --text "Finished running $@" >/dev/null 2>/dev/null & disown;
+    zenity --notification --text "Finished running $*" >/dev/null 2>/dev/null & disown;
   fi
   set -m
 }

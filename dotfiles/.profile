@@ -49,14 +49,14 @@ case $(uname) in
     ;;
 esac
 
-if [ ! -x "$(which brew)" -a -x "/opt/homebrew/bin/brew" ]; then
+if [ ! -x "$(which brew)" ] && [ -x "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 export _PERSONAL_PROFILE_ACTIVE=42
 
 # If running bash / zsh:
-if [ -n "$BASH_VERSION" -o -n "$ZSH_VERSION" ]; then
+if [ -n "$BASH_VERSION" ] || [ -n "$ZSH_VERSION" ]; then
     # Include .bashrc if it exists. Do this after everything else, because the
     # .bashrc file may eventually exec into fish, and we don't want to lose all
     # of the stuff above, should that happen.

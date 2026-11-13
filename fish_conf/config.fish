@@ -1,4 +1,4 @@
-if test -z $_PERSONAL_PROFILE_ACTIVE; and status is-interactive
+if test -z "$_PERSONAL_PROFILE_ACTIVE"; and status is-interactive
   echo "Warning: .profile was not activated"
 end
 
@@ -77,7 +77,7 @@ _maybe_new_pwd  # make sure we also run this during shell init
 ### set up fish environment
 set -g fish_color_cwd ff4175
 
-if test $fish_color_host = "normal"
+if test "$fish_color_host" = "normal"
   set -g fish_color_host 0a6
 end
 
