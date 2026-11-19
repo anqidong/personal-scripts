@@ -1,0 +1,71 @@
+#!/bin/sh
+
+# Lists the contents of an archive without extracting it. Handles tar (plain
+# and compressed) and zip. Usage: lsarchive [-l] [-z | -t] ARCHIVE
+#
+# -l  Long listing (permissions, sizes, dates), like `tar -tvf` / `unzip -l`.
+# -z  Treat ARCHIVE as a zip, whatever its extension (docx, pages, ...).
+# -t  Treat ARCHIVE as a tar, whatever its extension.
+#
+# For several archives, use xargs: `ls *.zip | xargs -n1 lsarchive`.
+
+usage() {
+  echo "usage: ${0##*/} [-l] [-z | -t] ARCHIVE" >&2
+  exit 2
+}
+
+long=0
+kind=
+while getopts lzt opt; do
+  case "${opt}" in
+    l) long=1 ;;
+    z | t)
+      if [ -n "${kind}" ] && [ "${kind}" != "${opt}" ]; then
+        echo "${0##*/}: -z and -t are mutually exclusive" >&2
+        exit 2
+      fi
+      kind=${opt}
+      ;;
+    *) usage ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [ "$#" -ne 1 ]; then
+  usage
+fi
+archive=$1
+
+if [ ! -f "${archive}" ]; then
+  echo "${0##*/}: ${archive}: not a file" >&2
+  exit 1
+fi
+
+if [ -z "${kind}" ]; then
+  lower=$(printf '%s' "${archive}" | tr '[:upper:]' '[:lower:]')
+  case "${lower}" in
+    *.zip | *.ipa | *.jar | *.war | *.ear | *.aar | *.apk | *.whl) kind=z ;;
+    *.tar | *.tgz | *.tar.gz | *.tbz | *.tbz2 | *.tar.bz2 | *.txz | *.tar.xz | *.tar.zst) kind=t ;;
+  esac
+fi
+
+case "${kind}" in
+  z)
+    if [ "${long}" -eq 1 ]; then
+      exec unzip -l "${archive}"
+    fi
+    # -Z1 prints bare names, one per line.
+    exec unzip -Z1 "${archive}"
+    ;;
+  t)
+    # Reading from a file, tar detects the compression on its own.
+    if [ "${long}" -eq 1 ]; then
+      exec tar -tvf "${archive}"
+    fi
+    exec tar -tf "${archive}"
+    ;;
+  *)
+    echo "${0##*/}: ${archive}: unrecognized archive extension (try -z or -t)" >&2
+    exit 1
+    ;;
+esac
